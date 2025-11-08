@@ -21,9 +21,9 @@ public class LibrarianModel {
     @Column(nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String fullName;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String email;
 }

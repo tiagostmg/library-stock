@@ -33,7 +33,7 @@ public class LoanModel {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Enum<LoanStatus> status;
+    private LoanStatus status;
 
     @Column()
     private String notes;

@@ -24,7 +24,7 @@ public class BookModel {
     @Column(length = 100)
     private String publisher;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private String isbn;
 
     @Column(length = 50)

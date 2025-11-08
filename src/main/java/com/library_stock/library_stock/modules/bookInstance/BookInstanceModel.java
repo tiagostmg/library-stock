@@ -20,10 +20,10 @@ public class BookInstanceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false, unique = true)
     private String internalCode;
 
-    @Column()
+    @Column(nullable = false)
     private LocalDateTime acquisitionDate;
 
     @Column(length = 50)
@@ -31,7 +31,7 @@ public class BookInstanceModel {
 
     @Enumerated(EnumType.STRING)
     @Column()
-    private Enum<BookStatus> status;
+    private BookStatus status;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)

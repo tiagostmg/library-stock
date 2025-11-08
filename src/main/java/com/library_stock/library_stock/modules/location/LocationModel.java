@@ -30,6 +30,6 @@ public class LocationModel {
     @Column(length = 50, nullable = false)
     private String position;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
     private String classificationCode;
 }
