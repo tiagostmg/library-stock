@@ -1,0 +1,35 @@
+package com.library_stock.library_stock.modules.book;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="book")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BookModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(nullable = false, length = 150)
+    private String title;
+
+    @Column(nullable = false, length = 150)
+    private String author;
+
+    @Column(length = 100)
+    private String publisher;
+
+    @Column(length = 20)
+    private String isbn;
+
+    @Column(length = 50)
+    private String category;
+
+    @Column(length = 200)
+    private String notes;
+}
