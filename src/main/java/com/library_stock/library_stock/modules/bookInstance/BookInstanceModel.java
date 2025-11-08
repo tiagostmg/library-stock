@@ -1,6 +1,8 @@
 package com.library_stock.library_stock.modules.bookInstance;
 
+import com.library_stock.library_stock.modules.book.BookModel;
 import com.library_stock.library_stock.modules.bookInstance.types.BookStatus;
+import com.library_stock.library_stock.modules.location.LocationModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table()
+@Table(name="book_instance")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class BookInstanceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String internalCode;
 
     @Column()
@@ -27,10 +29,16 @@ public class BookInstanceModel {
     @Column(length = 50)
     private String preservationState;
 
+    @Enumerated(EnumType.STRING)
     @Column()
     private Enum<BookStatus> status;
 
-    private int bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private BookModel book;
 
-    private int locationId;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private LocationModel location;
+
 }

@@ -15,21 +15,21 @@ public class LocationModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String sector;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String aisle;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String shelf;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String shelfLevel;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String position;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String classificationCode;
 }

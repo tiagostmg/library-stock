@@ -15,10 +15,10 @@ public class LibrarianModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String username;
 
-    @Column()
+    @Column(nullable = false, length = 255)
     private String passwordHash;
 
     @Column(length = 100)

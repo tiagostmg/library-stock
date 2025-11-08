@@ -15,13 +15,13 @@ public class ReaderModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column()
+    @Column(nullable = false)
     private String name;
 
-    @Column()
+    @Column(nullable = false, unique = true)
     private String cpf;
 
-    @Column()
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column()
