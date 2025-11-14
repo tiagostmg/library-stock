@@ -1,4 +1,4 @@
-package com.library_stock.library_stock.modules.librarian;
+package com.library_stock.library_stock.modules.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,28 +8,28 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/librarians")
-public class LibrarianController {
+public class UserController {
 
     @Autowired
-    private LibrarianService service;
+    private UserService service;
 
     @PostMapping
-    public ResponseEntity<LibrarianModel> create(@RequestBody LibrarianModel librarian) {
+    public ResponseEntity<UserModel> create(@RequestBody UserModel librarian) {
         return ResponseEntity.ok(service.create(librarian));
     }
 
     @GetMapping
-    public ResponseEntity<List<LibrarianModel>> findAll() {
+    public ResponseEntity<List<UserModel>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LibrarianModel> findById(@PathVariable int id) {
+    public ResponseEntity<UserModel> findById(@PathVariable int id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LibrarianModel> update(@PathVariable int id, @RequestBody LibrarianModel librarian) {
+    public ResponseEntity<UserModel> update(@PathVariable int id, @RequestBody UserModel librarian) {
         return ResponseEntity.ok(service.update(id, librarian));
     }
 

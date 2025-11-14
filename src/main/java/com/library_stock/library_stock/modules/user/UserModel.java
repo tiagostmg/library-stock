@@ -1,4 +1,4 @@
-package com.library_stock.library_stock.modules.librarian;
+package com.library_stock.library_stock.modules.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LibrarianModel {
+public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String username;
+    @Column(nullable = false, unique = true, length = 11)
+    private String cpf;
 
     @Column(nullable = false, length = 255)
     private String passwordHash;

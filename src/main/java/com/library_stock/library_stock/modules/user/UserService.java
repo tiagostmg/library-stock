@@ -1,4 +1,4 @@
-package com.library_stock.library_stock.modules.librarian;
+package com.library_stock.library_stock.modules.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,33 +6,33 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LibrarianService {
+public class UserService {
 
     @Autowired
-    private LibrarianRepository repository;
+    private UserRepository repository;
 
     // CREATE
-    public LibrarianModel create(LibrarianModel librarian) {
+    public UserModel create(UserModel librarian) {
         return repository.save(librarian);
     }
 
     // READ - todos
-    public List<LibrarianModel> findAll() {
+    public List<UserModel> findAll() {
         return repository.findAll();
     }
 
     // READ - por ID
-    public LibrarianModel findById(int id) {
+    public UserModel findById(int id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Librarian not found"));
     }
 
     // UPDATE
-    public LibrarianModel update(int id, LibrarianModel librarianDetails) {
-        LibrarianModel librarian = repository.findById(id)
+    public UserModel update(int id, UserModel librarianDetails) {
+        UserModel librarian = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Librarian not found"));
 
-        librarian.setUsername(librarianDetails.getUsername());
+        librarian.setCpf(librarianDetails.getCpf());
         librarian.setPasswordHash(librarianDetails.getPasswordHash());
         librarian.setFullName(librarianDetails.getFullName());
         librarian.setEmail(librarianDetails.getEmail());
