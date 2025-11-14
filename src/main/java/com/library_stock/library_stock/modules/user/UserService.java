@@ -1,6 +1,7 @@
 package com.library_stock.library_stock.modules.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,14 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     // CREATE
-    public UserModel create(UserModel librarian) {
-        return repository.save(librarian);
+    public UserModel create(UserModel user) {
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
+        return repository.save(user);
     }
 
     // READ - todos
@@ -24,26 +30,27 @@ public class UserService {
     // READ - por ID
     public UserModel findById(int id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Librarian not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     // UPDATE
-    public UserModel update(int id, UserModel librarianDetails) {
-        UserModel librarian = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Librarian not found"));
+    public UserModel update(int id, UserModel userDetails) {
+        UserModel user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        librarian.setCpf(librarianDetails.getCpf());
-        librarian.setPasswordHash(librarianDetails.getPasswordHash());
-        librarian.setFullName(librarianDetails.getFullName());
-        librarian.setEmail(librarianDetails.getEmail());
+        user.setCpf(userDetails.getCpf());
+        String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
+        user.setPassword(hashedPassword);
+        user.setFullName(userDetails.getFullName());
+        user.setEmail(userDetails.getEmail());
 
-        return repository.save(librarian);
+        return repository.save(user);
     }
 
     // DELETE
     public void delete(int id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Librarian not found");
+            throw new RuntimeException("User not found");
         }
         repository.deleteById(id);
     }

@@ -1,4 +1,4 @@
-package com.library_stock.library_stock.modules.auth.service;
+package com.library_stock.library_stock.modules.auth;
 
 import com.library_stock.library_stock.modules.auth.dto.LoginResponse;
 import com.library_stock.library_stock.modules.auth.dto.UserResponse;
@@ -21,7 +21,7 @@ public class AuthService {
         UserModel user = userRepository.findByCpf(cpf)
                 .orElseThrow(() -> new RuntimeException("CPF inválido."));
 
-        if (!user.getPasswordHash().equals(senha)) {
+        if (!user.getPassword().equals(senha)) {
             throw new RuntimeException("Senha incorreta!");
         }
 

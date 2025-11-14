@@ -1,4 +1,4 @@
-package com.library_stock.library_stock.modules.auth.service;
+package com.library_stock.library_stock.modules.auth;
 
 import com.library_stock.library_stock.modules.user.UserModel;
 import io.jsonwebtoken.Jwts;

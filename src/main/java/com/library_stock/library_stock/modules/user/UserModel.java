@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "librarian")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class UserModel {
     private String cpf;
 
     @Column(nullable = false, length = 255)
-    private String passwordHash;
+    private String password;
 
     @Column(length = 100, nullable = false)
     private String fullName;

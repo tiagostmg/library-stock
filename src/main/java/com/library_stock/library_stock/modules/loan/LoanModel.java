@@ -39,8 +39,8 @@ public class LoanModel {
     private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "librarian_id", nullable = false)
-    private UserModel librarian;
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserModel user;
 
     @ManyToOne
     @JoinColumn(name = "reader_id", nullable = false)

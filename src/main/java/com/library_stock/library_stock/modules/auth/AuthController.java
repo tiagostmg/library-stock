@@ -1,8 +1,7 @@
-package com.library_stock.library_stock.modules.auth.controller;
+package com.library_stock.library_stock.modules.auth;
 
 import com.library_stock.library_stock.modules.auth.dto.LoginRequest;
 import com.library_stock.library_stock.modules.auth.dto.LoginResponse;
-import com.library_stock.library_stock.modules.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

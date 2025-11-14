@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/librarians")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService service;
 
     @PostMapping
-    public ResponseEntity<UserModel> create(@RequestBody UserModel librarian) {
-        return ResponseEntity.ok(service.create(librarian));
+    public ResponseEntity<UserModel> create(@RequestBody UserModel user) {
+        return ResponseEntity.ok(service.create(user));
     }
 
     @GetMapping
@@ -29,8 +29,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserModel> update(@PathVariable int id, @RequestBody UserModel librarian) {
-        return ResponseEntity.ok(service.update(id, librarian));
+    public ResponseEntity<UserModel> update(@PathVariable int id, @RequestBody UserModel user) {
+        return ResponseEntity.ok(service.update(id, user));
     }
 
     @DeleteMapping("/{id}")
