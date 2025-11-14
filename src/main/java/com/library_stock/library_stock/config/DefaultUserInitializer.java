@@ -12,7 +12,6 @@ public class DefaultUserInitializer {
 
     // Certifique-se de que este hash BCrypt corresponde à senha "12345678"
     // Use o hash que você gerou!
-    private static final String BRUNO_HASH = "$2a$10$IjmV7qEyMJya6fSNqnrkG.GcHzM4xDOzhobVBceyrWum8QI9Euoq6";
 
     @Bean
     public CommandLineRunner initializeDefaultUser(
@@ -27,8 +26,10 @@ public class DefaultUserInitializer {
                 UserModel bruno = new UserModel();
                 bruno.setCpf("01234567890");
                 bruno.setFullName("Bruno Lopes");
-                // Usamos o hash pré-gerado, não a senha em texto puro
-                bruno.setPassword(BRUNO_HASH);
+
+                String passwordHash = passwordEncoder.encode("12345678");
+
+                bruno.setPassword(passwordHash);
 
                 userRepository.save(bruno);
                 System.out.println(">>> USUÁRIO PADRÃO 'BRUNO LOPES' CRIADO NO BANCO DE DADOS.");
