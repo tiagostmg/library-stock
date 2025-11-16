@@ -1,7 +1,7 @@
 package com.library_stock.library_stock.config;
 
-import com.library_stock.library_stock.modules.auth.JwtService;
-import com.library_stock.library_stock.modules.user.UserRepository;
+import com.library_stock.library_stock.auth.JwtService;
+import com.library_stock.library_stock.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
