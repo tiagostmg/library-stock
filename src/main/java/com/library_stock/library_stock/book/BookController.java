@@ -1,10 +1,12 @@
 package com.library_stock.library_stock.book;
 
+import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -23,8 +25,13 @@ public class BookController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> findByTitleContainingIgnoreCase(@RequestBody BookSearchViewModel bookSearchViewModel) {
+        return ResponseEntity.ok(service.searchBooks(bookSearchViewModel));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable int id) {
+    public ResponseEntity<Optional<Book>> findById(@PathVariable int id) {
         return ResponseEntity.ok(service.findById(id));
     }
 

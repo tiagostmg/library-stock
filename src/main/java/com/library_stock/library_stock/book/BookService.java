@@ -1,53 +1,42 @@
 package com.library_stock.library_stock.book;
 
+import com.library_stock.library_stock.base.BaseService;
+import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BookService {
+public class BookService extends BaseService<Book, Integer, BookRepository> {
 
     @Autowired
     private BookRepository repository;
 
-    // CREATE
-    public Book create(Book book) {
-        return repository.save(book);
+    protected BookService(BookRepository repository) {
+        super(repository);
     }
 
-    // READ - todos
-    public List<Book> findAll() {
-        return repository.findAll();
-    }
+    public List<Book> searchBooks(BookSearchViewModel bookSearchViewModel) {
 
-    // READ - por ID
-    public Book findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
-    }
+        String filter = bookSearchViewModel.getFilter();
+        String type = bookSearchViewModel.getType();
 
-    // UPDATE
-    public Book update(int id, Book bookDetails) {
-        Book book = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
-
-        book.setTitle(bookDetails.getTitle());
-        book.setAuthor(bookDetails.getAuthor());
-        book.setPublisher(bookDetails.getPublisher());
-        book.setIsbn(bookDetails.getIsbn());
-        book.setCategory(bookDetails.getCategory());
-        book.setNotes(bookDetails.getNotes());
-
-        return repository.save(book);
-    }
-
-    // DELETE
-    public void delete(int id) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("Book not found");
+        if (filter == null || filter.isBlank()) {
+            return List.of(); // retorna vazio se não houver filtro
         }
-        repository.deleteById(id);
+
+        filter = filter.toLowerCase().trim();
+
+        return switch (type.toLowerCase()) {
+            case "title" -> repository.findByTitleContainingIgnoreCase(filter);
+            case "author" -> repository.findByAuthorContainingIgnoreCase(filter);
+            case "category" -> repository.findByCategoryContainingIgnoreCase(filter);
+            default -> throw new IllegalArgumentException("Tipo de filtro inválido: " + type);
+        };
     }
+
+
 }
 
