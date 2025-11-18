@@ -2,6 +2,7 @@ package com.library_stock.library_stock.book;
 
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,12 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Book>> findByTitleContainingIgnoreCase(@RequestBody BookSearchViewModel bookSearchViewModel) {
-        return ResponseEntity.ok(service.searchBooks(bookSearchViewModel));
+    public Page<Book> searchBooks(BookSearchViewModel searchModel) {
+        // O Spring Framework automaticamente popula 'searchModel'
+        // usando os query parameters (ex: ?filter=e&page=0&size=1)
+
+        // Chamamos o serviço que já está configurado para usar o PageRequest.of()
+        return service.searchBooks(searchModel);
     }
 
     @GetMapping("/{id}")
