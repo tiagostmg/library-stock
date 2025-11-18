@@ -5,7 +5,7 @@ import com.library_stock.library_stock.book.Book;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import com.library_stock.library_stock.bookInstance.BookInstance;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
-import com.library_stock.library_stock.loan.viewModel.ReturnOverduenViewModel;
+import com.library_stock.library_stock.loan.viewModel.ReturnOverdueViewModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
         super(repository);
     }
 
-    public List<ReturnOverduenViewModel> overduenLoan() {
+    public List<ReturnOverdueViewModel> overduenLoan() {
 
         List<Loan> overdueLoans = repository
                 .findByActualReturnDateIsNullAndExpectedReturnDateBefore(LocalDate.now());
@@ -27,8 +27,8 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
                 .toList();
     }
 
-    private ReturnOverduenViewModel mapToReturnOverdueViewModel(Loan loan) {
-        ReturnOverduenViewModel vm = new ReturnOverduenViewModel();
+    private ReturnOverdueViewModel mapToReturnOverdueViewModel(Loan loan) {
+        ReturnOverdueViewModel vm = new ReturnOverdueViewModel();
 
         vm.setLoanDate(loan.getLoanDate());
         vm.setExpectedReturnDate(loan.getExpectedReturnDate());
