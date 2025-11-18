@@ -1,53 +1,57 @@
 package com.library_stock.library_stock.book;
 
+import com.library_stock.library_stock.base.BaseService;
+import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BookService {
+public class BookService extends BaseService<Book, Integer, BookRepository> {
 
     @Autowired
     private BookRepository repository;
 
-    // CREATE
-    public Book create(Book book) {
-        return repository.save(book);
+    protected BookService(BookRepository repository) {
+        super(repository);
     }
 
-    // READ - todos
-    public List<Book> findAll() {
-        return repository.findAll();
-    }
+    public Page<Book> searchBooks(BookSearchViewModel bookSearch) {
 
-    // READ - por ID
-    public Book findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
-    }
+        String filter = bookSearch.getFilter();
+        String type = bookSearch.getType();
 
-    // UPDATE
-    public Book update(int id, Book bookDetails) {
-        Book book = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+        // 1. Cria o objeto Pageable a partir dos dados do View Model
+        // O PageRequest.of(página, tamanho) é a implementação concreta de Pageable.
 
-        book.setTitle(bookDetails.getTitle());
-        book.setAuthor(bookDetails.getAuthor());
-        book.setPublisher(bookDetails.getPublisher());
-        book.setIsbn(bookDetails.getIsbn());
-        book.setCategory(bookDetails.getCategory());
-        book.setNotes(bookDetails.getNotes());
+        Pageable pageable = PageRequest.of(
+                bookSearch.getPage(),  bookSearch.getSize()
+        );
 
-        return repository.save(book);
-    }
-
-    // DELETE
-    public void delete(int id) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("Book not found");
+        // 2. Verifica o filtro
+        if (filter == null || filter.isBlank()) {
+            // Se não houver filtro, você pode retornar uma página vazia ou todos os livros paginados
+            // Vamos retornar todos os livros paginados neste caso:
+            return repository.findAll(pageable);
         }
-        repository.deleteById(id);
+
+        filter = filter.toLowerCase().trim();
+
+        // 3. Executa a busca com base no tipo e no objeto Pageable
+        return switch (type.toLowerCase()) {
+            case "title" -> repository.findByTitleContainingIgnoreCase(filter, pageable);
+            case "author" -> repository.findByAuthorContainingIgnoreCase(filter, pageable);
+            case "category" -> repository.findByCategoryContainingIgnoreCase(filter, pageable);
+            default -> throw new IllegalArgumentException("Tipo de filtro inválido: " + type);
+        };
     }
+
+
 }
 
