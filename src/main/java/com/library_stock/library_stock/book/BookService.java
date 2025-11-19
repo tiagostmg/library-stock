@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BookService extends BaseService<Book, Integer, BookRepository> {
@@ -31,12 +27,12 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
         // O PageRequest.of(página, tamanho) é a implementação concreta de Pageable.
 
         Pageable pageable = PageRequest.of(
-                bookSearch.getPage(),  bookSearch.getSize()
-        );
+                bookSearch.getPage(), bookSearch.getSize());
 
         // 2. Verifica o filtro
         if (filter == null || filter.isBlank()) {
-            // Se não houver filtro, você pode retornar uma página vazia ou todos os livros paginados
+            // Se não houver filtro, você pode retornar uma página vazia ou todos os livros
+            // paginados
             // Vamos retornar todos os livros paginados neste caso:
             return repository.findAll(pageable);
         }
@@ -52,6 +48,4 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
         };
     }
 
-
 }
-
