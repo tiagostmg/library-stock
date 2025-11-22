@@ -2,6 +2,7 @@ package com.library_stock.library_stock.bookInstance;
 
 import com.library_stock.library_stock.book.Book;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
+import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import com.library_stock.library_stock.location.Location;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,9 @@ public class BookInstance {
     @Column(nullable = false)
     private LocalDateTime acquisitionDate;
 
-    @Column(length = 50)
-    private String preservationState;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PreservationState preservationState;
 
     @Enumerated(EnumType.STRING)
     @Column()
