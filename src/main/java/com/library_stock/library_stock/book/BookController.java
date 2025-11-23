@@ -3,6 +3,7 @@ package com.library_stock.library_stock.book;
 import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
+import com.library_stock.library_stock.book.viewModel.UpdateBookViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> update(@PathVariable int id, @RequestBody Book book) {
-        return ResponseEntity.ok(service.update(id, book));
+    public ResponseEntity<BookViewModel> update(@PathVariable int id, @RequestBody UpdateBookViewModel book) {
+        return ResponseEntity.ok(service.updateBook(id, book));
     }
 
     @DeleteMapping("/{id}")

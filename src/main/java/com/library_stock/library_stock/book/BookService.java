@@ -4,6 +4,7 @@ import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
+import com.library_stock.library_stock.book.viewModel.UpdateBookViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,17 +63,33 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
 
         Book saved = repository.save(book);
 
+        return mapToBookViewModel(saved);
+    }
+
+    private BookViewModel mapToBookViewModel(Book book) {
         BookViewModel vm = new BookViewModel();
-        vm.setId(saved.getId());
-        vm.setTitle(saved.getTitle());
-        vm.setAuthor(saved.getAuthor());
-        vm.setPublisher(saved.getPublisher());
-        vm.setIsbn(saved.getIsbn());
-        vm.setCategory(saved.getCategory());
-        vm.setNotes(saved.getNotes());
+
+        vm.setId(book.getId());
+        vm.setTitle(book.getTitle());
+        vm.setAuthor(book.getAuthor());
+        vm.setPublisher(book.getPublisher());
+        vm.setIsbn(book.getIsbn());
+        vm.setCategory(book.getCategory());
+        vm.setNotes(book.getNotes());
 
         return vm;
     }
 
+    public BookViewModel updateBook(int id, UpdateBookViewModel vm) {
+
+        Book book = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+
+        book.setNotes(vm.notes);
+
+        Book updated = repository.save(book);
+
+        return mapToBookViewModel(updated);
+    }
 
 }
