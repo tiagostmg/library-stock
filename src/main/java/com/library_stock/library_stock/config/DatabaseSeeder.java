@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Configuration
 public class DatabaseSeeder {
@@ -39,9 +38,6 @@ public class DatabaseSeeder {
     ) {
         return args -> {
 
-            // -----------------------
-            // USER
-            // -----------------------
             User user = userRepository.findByCpf("01234567890")
                     .orElseGet(() -> userRepository.save(
                             new User(
@@ -53,9 +49,6 @@ public class DatabaseSeeder {
                             )
                     ));
 
-            // -----------------------
-            // READERS (2 leitores)
-            // -----------------------
             if (readerRepository.count() == 0) {
                 readerRepository.save(new Reader(
                         0,
@@ -74,16 +67,10 @@ public class DatabaseSeeder {
                         "Rua B, 456",
                         "85999990002"
                 ));
-
-                System.out.println("==== 2 READERS CREATED ====");
             }
 
-            // pega o primeiro reader (já garantimos que existe pelo bloco acima)
             Reader reader = readerRepository.findAll().get(0);
 
-            // -----------------------
-            // BOOKS + INSTANCES (50 livros)
-            // -----------------------
             String[] titles = {
                     "The Silent River", "Echoes of Eternity", "Broken Skies", "The Last Kingdom",
                     "Dreams of Tomorrow", "Crimson Shadows", "Emerald Dawn", "Lost Horizons",
@@ -141,40 +128,40 @@ public class DatabaseSeeder {
                                 )
                         ));
 
-                String internalCode = "INT-" + String.format("%04d", i + 1);
+                int copies = 2 + (i % 4);
 
-                if (bookInstanceRepository.findByInternalCode(internalCode).isEmpty()) {
-                    bookInstanceRepository.save(
-                            new BookInstance(
-                                    0,
-                                    internalCode,
-                                    LocalDateTime.now(),
-                                    PreservationState.GOOD,
-                                    BookStatus.AVAILABLE,
-                                    book,
-                                    loc
-                            )
-                    );
+                for (int c = 1; c <= copies; c++) {
+
+                    String internalCode = "INT-" + String.format("%04d", i + 1) + "-" + c;
+
+                    if (bookInstanceRepository.findByInternalCode(internalCode).isEmpty()) {
+
+                        bookInstanceRepository.save(
+                                new BookInstance(
+                                        0,
+                                        internalCode,
+                                        LocalDateTime.now().minusDays(c),
+                                        PreservationState.values()[c % PreservationState.values().length],
+                                        BookStatus.AVAILABLE,
+                                        book,
+                                        loc
+                                )
+                        );
+                    }
                 }
             }
 
-            System.out.println("==== 50 BOOKS + INSTANCES CREATED ====");
-
-            // -----------------------
-            // LOANS — criar somente se não existir nenhum (evita duplicação)
-            // -----------------------
             if (loanRepository.count() == 0) {
-                // garanta que as instances existem
-                BookInstance bi1 = bookInstanceRepository.findByInternalCode("INT-0001")
-                        .orElseThrow(() -> new IllegalStateException("BookInstance INT-0001 missing"));
-                BookInstance bi2 = bookInstanceRepository.findByInternalCode("INT-0002")
-                        .orElseThrow(() -> new IllegalStateException("BookInstance INT-0002 missing"));
-                BookInstance bi3 = bookInstanceRepository.findByInternalCode("INT-0003")
-                        .orElseThrow(() -> new IllegalStateException("BookInstance INT-0003 missing"));
-                BookInstance bi4 = bookInstanceRepository.findByInternalCode("INT-0004")
-                        .orElseThrow(() -> new IllegalStateException("BookInstance INT-0004 missing"));
 
-                // 2 atrasados
+                BookInstance bi1 = bookInstanceRepository.findByInternalCode("INT-0001-1")
+                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
+                BookInstance bi2 = bookInstanceRepository.findByInternalCode("INT-0002-1")
+                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
+                BookInstance bi3 = bookInstanceRepository.findByInternalCode("INT-0003-1")
+                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
+                BookInstance bi4 = bookInstanceRepository.findByInternalCode("INT-0004-1")
+                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
+
                 loanRepository.save(new Loan(
                         0,
                         LocalDate.now().minusDays(12),
@@ -199,7 +186,6 @@ public class DatabaseSeeder {
                         bi2
                 ));
 
-                // 2 dentro do prazo
                 loanRepository.save(new Loan(
                         0,
                         LocalDate.now().minusDays(1),
@@ -223,10 +209,6 @@ public class DatabaseSeeder {
                         reader,
                         bi4
                 ));
-
-                System.out.println("==== 4 LOANS CREATED (2 overdue + 2 in progress) ====");
-            } else {
-                System.out.println("Loans already exist — skipping loan seeding.");
             }
         };
     }
