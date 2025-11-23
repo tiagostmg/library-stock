@@ -1,7 +1,7 @@
 package com.library_stock.library_stock.config;
 
-import com.library_stock.library_stock.modules.auth.JwtService;
-import com.library_stock.library_stock.modules.user.UserRepository;
+import com.library_stock.library_stock.auth.JwtService;
+import com.library_stock.library_stock.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,37 +26,69 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
             return;
         }
 
         String token = authHeader.substring(7);
-        String cpf = jwtService.extractCpf(token);
 
-        if (cpf != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        String cpf;
+        try {
+            // 🔥 tentar extrair o CPF do token
+            cpf = jwtService.extractCpf(token);
+        } catch (Exception e) {
+            // token malformado → 401
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
-            var user = userRepository.findByCpf(cpf).orElse(null);
-            if (user != null && jwtService.isTokenValid(token, user)) {
+        if (cpf == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        // se já autenticado, segue
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
+        var user = userRepository.findByCpf(cpf).orElse(null);
+
+        // 🔥 token inválido ou expirado → 401
+        if (user == null || !jwtService.isTokenValid(token, user)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        // 🔥 Se tudo está ok → autentica
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(
+                        user,
+                        null,
+                        user.getAuthorities()
                 );
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-        }
+        authToken.setDetails(
+                new WebAuthenticationDetailsSource().buildDetails(request)
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
     }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getServletPath().startsWith("/auth/");
+    }
+
 }
