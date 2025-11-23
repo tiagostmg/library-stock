@@ -8,4 +8,7 @@ public interface BookInstanceRepository extends JpaRepository<BookInstance, Inte
     Optional<BookInstance> findByInternalCode(String internalCode);
 
     List<BookInstance> findByBookId(int bookId);
+
+    Optional<BookInstance> findById(int id);
+
 }
