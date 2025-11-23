@@ -5,6 +5,7 @@ import com.library_stock.library_stock.book.BookRepository;
 import com.library_stock.library_stock.bookInstance.BookInstance;
 import com.library_stock.library_stock.bookInstance.BookInstanceRepository;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
+import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import com.library_stock.library_stock.location.Location;
 import com.library_stock.library_stock.location.LocationRepository;
 import com.library_stock.library_stock.user.User;
@@ -119,7 +120,7 @@ public class DatabaseSeeder {
                                     0,
                                     internalCode,
                                     LocalDateTime.now(),
-                                    "Good",
+                                    PreservationState.GOOD,
                                     BookStatus.AVAILABLE,
                                     createdBook,
                                     loc
