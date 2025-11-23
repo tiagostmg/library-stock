@@ -1,7 +1,9 @@
 package com.library_stock.library_stock.book;
 
 import com.library_stock.library_stock.base.BaseService;
+import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
+import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,5 +49,30 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
             default -> throw new IllegalArgumentException("Tipo de filtro inválido: " + type);
         };
     }
+
+    public BookViewModel createBook(AddBookViewModel bookVM) {
+
+        Book book = new Book();
+        book.setTitle(bookVM.title);
+        book.setAuthor(bookVM.author);
+        book.setPublisher(bookVM.publisher);
+        book.setIsbn(bookVM.isbn);
+        book.setCategory(bookVM.category);
+        book.setNotes(bookVM.notes);
+
+        Book saved = repository.save(book);
+
+        BookViewModel vm = new BookViewModel();
+        vm.setId(saved.getId());
+        vm.setTitle(saved.getTitle());
+        vm.setAuthor(saved.getAuthor());
+        vm.setPublisher(saved.getPublisher());
+        vm.setIsbn(saved.getIsbn());
+        vm.setCategory(saved.getCategory());
+        vm.setNotes(saved.getNotes());
+
+        return vm;
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package com.library_stock.library_stock.book;
 
+import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
+import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,8 @@ public class BookController {
     private BookService service;
 
     @PostMapping
-    public ResponseEntity<Book> create(@RequestBody Book book) {
-        return ResponseEntity.ok(service.create(book));
+    public ResponseEntity<BookViewModel> create(@RequestBody AddBookViewModel book) {
+        return ResponseEntity.ok(service.createBook(book));
     }
 
     @GetMapping
