@@ -2,15 +2,17 @@ package com.library_stock.library_stock.loan;
 
 import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.book.Book;
-import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import com.library_stock.library_stock.bookInstance.BookInstance;
+import com.library_stock.library_stock.loan.types.LoanStatus;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
+import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import com.library_stock.library_stock.loan.viewModel.ReturnOverdueViewModel;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
+@Service
 public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
 
     public LoanService(LoanRepository repository) {
@@ -20,7 +22,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
     public List<ReturnOverdueViewModel> overduenLoan() {
 
         List<Loan> overdueLoans = repository
-                .findByActualReturnDateIsNullAndExpectedReturnDateBefore(LocalDate.now());
+                .findOverdueLoans(LocalDate.now());
 
         return overdueLoans.stream()
                 .map(this::mapToReturnOverdueViewModel)
