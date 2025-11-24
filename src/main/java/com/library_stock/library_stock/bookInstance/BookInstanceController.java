@@ -1,12 +1,16 @@
 package com.library_stock.library_stock.bookInstance;
 
+import com.library_stock.library_stock.book.Book;
+import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
+import com.library_stock.library_stock.book.viewModel.BookViewModel;
+import com.library_stock.library_stock.book.viewModel.UpdateBookViewModel;
+import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceSearchViewModel;
+import com.library_stock.library_stock.bookInstance.viewModel.UpdateBookInstanceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +21,30 @@ public class BookInstanceController {
     @Autowired
     private BookInstanceService bookInstanceService;
 
+    @PostMapping
+    public ResponseEntity<BookInstanceViewModel> create(@RequestBody AddBookInstanceViewModel bookInstance) {
+        return ResponseEntity.ok(bookInstanceService.createBookInstance(bookInstance));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookInstanceViewModel> update(@PathVariable int id, @RequestBody UpdateBookInstanceViewModel bookInstance) {
+        return ResponseEntity.ok(bookInstanceService.updateBookInstance(id, bookInstance));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        bookInstanceService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/book/{bookId}")
     public List<BookInstanceViewModel> findByBookId(@PathVariable int bookId) {
         return bookInstanceService.findByBookId(bookId);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BookInstance>> findAll() {
+        return ResponseEntity.ok(bookInstanceService.findAll());
     }
 
     @GetMapping("/{id}")
