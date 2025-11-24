@@ -1,5 +1,6 @@
 package com.library_stock.library_stock.bookInstance;
 
+import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,5 @@ public interface BookInstanceRepository extends JpaRepository<BookInstance, Inte
 
     Optional<BookInstance> findById(int id);
 
+    List<BookInstance> findByPreservationState(PreservationState preservationState);
 }
