@@ -52,12 +52,12 @@ public class BookInstanceController {
         return bookInstanceService.findByBookInstanceId(id);
     }
 
-    @GetMapping("/dashboard/{internalCode}")
+    @GetMapping("/dash/{internalCode}")
     public BookInstanceSearchViewModel findByInternalCode(@PathVariable String internalCode) {
         return bookInstanceService.findByInternalCode(internalCode);
     }
 
-    @GetMapping("/bad")
+    @GetMapping("/dash/bad")
     public List<BookInstanceViewModel> findBadInstances() {
         return bookInstanceService.findByPreservationStateBad();
     }
