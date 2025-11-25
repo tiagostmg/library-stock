@@ -4,10 +4,9 @@ import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.book.Book;
 import com.library_stock.library_stock.book.BookRepository;
 import com.library_stock.library_stock.location.LocationRepository;
-import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
-import com.library_stock.library_stock.book.viewModel.UpdateBookViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
+import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceSearchViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.UpdateBookInstanceViewModel;
@@ -92,6 +91,15 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
         BookInstance updated = repository.save(bookInstance);
 
         return mapToBookInstanceViewModel(updated);
+    }
+
+    public List<BookInstanceViewModel> findByPreservationStateBad() {
+        List<BookInstance> badInstances = repository
+                .findByPreservationState(PreservationState.BAD);
+
+        return badInstances.stream()
+                .map(this::mapToBookInstanceViewModel)
+                .toList();
     }
 
     private BookInstanceSearchViewModel mapToReturnBookInstanceDashBoardViewModel(BookInstance bookInstance) {

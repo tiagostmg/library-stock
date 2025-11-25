@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookinstances")
+@RequestMapping("/bookInstances")
 public class BookInstanceController {
 
     @Autowired
@@ -52,8 +52,14 @@ public class BookInstanceController {
         return bookInstanceService.findByBookInstanceId(id);
     }
 
-    @GetMapping("/dashboard/{internalCode}")
+    @GetMapping("/dash/{internalCode}")
     public BookInstanceSearchViewModel findByInternalCode(@PathVariable String internalCode) {
         return bookInstanceService.findByInternalCode(internalCode);
     }
+
+    @GetMapping("/dash/bad")
+    public List<BookInstanceViewModel> findBadInstances() {
+        return bookInstanceService.findByPreservationStateBad();
+    }
+
 }
