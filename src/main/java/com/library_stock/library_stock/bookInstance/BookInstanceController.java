@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookInstances")
+@RequestMapping("/book-instances")
 public class BookInstanceController {
 
     @Autowired
