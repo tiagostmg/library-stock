@@ -3,7 +3,7 @@ package com.library_stock.library_stock.loan;
 import com.library_stock.library_stock.loan.viewModel.BorrowBookRequestViewModel;
 import com.library_stock.library_stock.loan.viewModel.BorrowBookResponseViewModel;
 import com.library_stock.library_stock.loan.viewModel.ReturnBookRequestViewModel;
-import com.library_stock.library_stock.loan.viewModel.ReturnOverdueViewModel;
+import com.library_stock.library_stock.loan.viewModel.OverdueResponseViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,8 @@ public class LoanController {
     private LoanService service;
 
     @GetMapping("/dash/overduenloan")
-    public ResponseEntity<List<ReturnOverdueViewModel>> overduenLoan() {
-        var result = service.overduenLoan();
+    public ResponseEntity<List<OverdueResponseViewModel>> overduenLoan() {
+        var result = service.getOverdueLoans();
         return ResponseEntity.ok(result);
     }
 
