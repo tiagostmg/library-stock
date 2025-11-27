@@ -3,7 +3,7 @@ package com.library_stock.library_stock.loan.viewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
 import com.library_stock.library_stock.loan.Loan;
-import com.library_stock.library_stock.user.viewModel.OverdueUserViewModel;
+import com.library_stock.library_stock.reader.viewModel.OverdueReaderViewModel;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class OverdueResponseViewModel {
 
     private OverdueBookInstanceViewModel overdueBookInstanceViewModel;
 
-    private OverdueUserViewModel overdueUserViewModel;
+    private OverdueReaderViewModel overdueReaderViewModel;
 
     public OverdueResponseViewModel toViewModel(Loan loan) {
         OverdueResponseViewModel vm = new OverdueResponseViewModel();
@@ -28,13 +28,13 @@ public class OverdueResponseViewModel {
         vm.setExpectedReturnDate(loan.getExpectedReturnDate());
         vm.setLoanDate(loan.getLoanDate());
 
-        OverdueUserViewModel userVM = new OverdueUserViewModel();
+        OverdueReaderViewModel readerVM = new OverdueReaderViewModel();
 
-        userVM.setId(loan.getUser().getId());
-        userVM.setCpf(loan.getUser().getCpf());
-        userVM.setFullName(loan.getUser().getFullName());
+        readerVM.setId(loan.getReader().getId());
+        readerVM.setCpf(loan.getReader().getCpf());
+        readerVM.setName(loan.getReader().getName());
 
-        vm.setOverdueUserViewModel(userVM);
+        vm.setOverdueReaderViewModel(readerVM);
 
         OverdueBookInstanceViewModel bookInstanceVM = new OverdueBookInstanceViewModel();
 
