@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 public class OverdueResponseViewModel {
 
-    private int id;
+    private int loanId;
 
     private LocalDate loanDate;
 
@@ -24,7 +24,7 @@ public class OverdueResponseViewModel {
     public OverdueResponseViewModel toViewModel(Loan loan) {
         OverdueResponseViewModel vm = new OverdueResponseViewModel();
 
-        vm.setId(loan.getId());
+        vm.setLoanId(loan.getId());
         vm.setExpectedReturnDate(loan.getExpectedReturnDate());
         vm.setLoanDate(loan.getLoanDate());
 
