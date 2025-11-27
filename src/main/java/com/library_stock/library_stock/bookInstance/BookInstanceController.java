@@ -57,7 +57,7 @@ public class BookInstanceController {
         return bookInstanceService.findByInternalCode(internalCode);
     }
 
-    @GetMapping("/dash/bad")
+    @GetMapping("/dash/bad-preservation")
     public List<BookInstanceViewModel> findBadInstances() {
         return bookInstanceService.findByPreservationStateBad();
     }
