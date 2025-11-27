@@ -20,7 +20,7 @@ public class LoanController {
     @Autowired
     private LoanService service;
 
-    @GetMapping("/dash/overduenloan")
+    @GetMapping("/dash/overdue-loan")
     public ResponseEntity<List<OverdueResponseViewModel>> overduenLoan() {
         var result = service.getOverdueLoans();
         return ResponseEntity.ok(result);
