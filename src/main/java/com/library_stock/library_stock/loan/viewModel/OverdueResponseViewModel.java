@@ -1,7 +1,7 @@
 package com.library_stock.library_stock.loan.viewModel;
 
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
-import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookViewModel;
+import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
 import com.library_stock.library_stock.loan.Loan;
 import com.library_stock.library_stock.user.viewModel.OverdueUserViewModel;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class OverdueResponseViewModel {
 
     private LocalDate expectedReturnDate;
 
-    private OverdueResponseViewModel overdueLoanResponseViewModel;
+    private OverdueBookInstanceViewModel overdueBookInstanceViewModel;
 
     private OverdueUserViewModel overdueUserViewModel;
 
@@ -36,12 +36,14 @@ public class OverdueResponseViewModel {
 
         vm.setOverdueUserViewModel(userVM);
 
-        OverdueBookViewModel bookInstanceVM = new OverdueBookViewModel();
+        OverdueBookInstanceViewModel bookInstanceVM = new OverdueBookInstanceViewModel();
 
         bookInstanceVM.setId(loan.getBookInstance().getId());
         bookInstanceVM.setInternalCode(loan.getBookInstance().getInternalCode());
         BookViewModel bookVM = new BookViewModel().toViewModel(loan.getBookInstance().getBook());
         bookInstanceVM.setBook(bookVM);
+
+        vm.setOverdueBookInstanceViewModel(bookInstanceVM);
 
         return vm;
     }
