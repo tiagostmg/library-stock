@@ -1,15 +1,9 @@
 package com.library_stock.library_stock.loan;
 
-import com.library_stock.library_stock.loan.viewModel.BorrowBookRequestViewModel;
-import com.library_stock.library_stock.loan.viewModel.BorrowBookResponseViewModel;
-import com.library_stock.library_stock.loan.viewModel.ReturnBookRequestViewModel;
-import com.library_stock.library_stock.loan.viewModel.OverdueResponseViewModel;
+import com.library_stock.library_stock.loan.viewModel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +35,11 @@ public class LoanController {
         service.returnBook(id);
     }
 
+    @GetMapping("reader/{readerId}")
+    public ResponseEntity<List<LoanViewModel>> getByReaderId(@PathVariable int readerId)
+    {
+        var result = service.getByReaderId(readerId);
+        return ResponseEntity.ok(result);
+    }
 
 }

@@ -12,4 +12,6 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
     List<Loan> findOverdueLoans(LocalDate date);
 
     Optional<Loan> findByBookInstanceIdAndActualReturnDateIsNull(int bookInstanceId);
+
+    List<Loan> findAllByReaderId(int readerId);
 }

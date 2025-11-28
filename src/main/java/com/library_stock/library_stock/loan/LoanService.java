@@ -6,6 +6,7 @@ import com.library_stock.library_stock.loan.types.LoanStatus;
 import com.library_stock.library_stock.bookInstance.BookInstanceRepository;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
 import com.library_stock.library_stock.loan.viewModel.BorrowBookResponseViewModel;
+import com.library_stock.library_stock.loan.viewModel.LoanViewModel;
 import com.library_stock.library_stock.loan.viewModel.OverdueResponseViewModel;
 import org.springframework.stereotype.Service;
 import com.library_stock.library_stock.reader.Reader;
@@ -96,5 +97,11 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
                 .toList();
     }
 
+    public List<LoanViewModel> getByReaderId(int readerId) {
+        var loans = repository.findAllByReaderId(readerId);
 
+        return loans.stream()
+                .map(e -> new LoanViewModel().toViewModel(e))
+                .toList();
+    }
 }
