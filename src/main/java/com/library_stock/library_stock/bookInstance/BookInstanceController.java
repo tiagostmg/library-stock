@@ -1,12 +1,7 @@
 package com.library_stock.library_stock.bookInstance;
 
-import com.library_stock.library_stock.book.Book;
-import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
-import com.library_stock.library_stock.book.viewModel.BookViewModel;
-import com.library_stock.library_stock.book.viewModel.UpdateBookViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
-import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceSearchViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.UpdateBookInstanceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +48,7 @@ public class BookInstanceController {
     }
 
     @GetMapping("/dash/{internalCode}")
-    public BookInstanceSearchViewModel findByInternalCode(@PathVariable String internalCode) {
+    public BookInstanceViewModel findByInternalCode(@PathVariable String internalCode) {
         return bookInstanceService.findByInternalCode(internalCode);
     }
 
