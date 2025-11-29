@@ -40,7 +40,8 @@ public class OverdueResponseViewModel {
 
         bookInstanceVM.setId(loan.getBookInstance().getId());
         bookInstanceVM.setInternalCode(loan.getBookInstance().getInternalCode());
-        BookViewModel bookVM = new BookViewModel().toViewModel(loan.getBookInstance().getBook());
+        new BookViewModel();
+        BookViewModel bookVM = BookViewModel.toViewModel(loan.getBookInstance().getBook());
         bookInstanceVM.setBook(bookVM);
 
         vm.setOverdueBookInstanceViewModel(bookInstanceVM);

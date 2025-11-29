@@ -8,7 +8,6 @@ import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
-import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceSearchViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.UpdateBookInstanceViewModel;
 import com.library_stock.library_stock.location.Location;
 import com.library_stock.library_stock.location.viewModel.LocationViewModel;
@@ -46,13 +45,13 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
                 .orElseThrow(() -> new RuntimeException("BookInstance não encontrado"));
     }
 
-    public BookInstanceSearchViewModel findByInternalCode(String internalCode) {
+    public BookInstanceViewModel findByInternalCode(String internalCode) {
 
         Optional<BookInstance> internalCodeBookInstance = repository
                 .findByInternalCode(internalCode);
 
         return internalCodeBookInstance
-                .map(this::mapToReturnBookInstanceDashBoardViewModel)
+                .map(this::mapToReturnBookInstanceViewModel)
                 .orElseThrow(() -> new RuntimeException("Instancia do livro não encontrado"));
     }
 
@@ -102,14 +101,16 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
                 .toList();
     }
 
-    private BookInstanceSearchViewModel mapToReturnBookInstanceDashBoardViewModel(BookInstance bookInstance) {
-        BookInstanceSearchViewModel vm = new BookInstanceSearchViewModel();
-        vm.setId(bookInstance.getId());
-        vm.setInternalCode(bookInstance.getInternalCode());
-        vm.setLocation(bookInstance.getLocation());
-        vm.setBook(mapToBookViewModel(bookInstance.getBook()));
-
-        return vm;
+    private BookInstanceViewModel mapToReturnBookInstanceViewModel(BookInstance bookInstance) {
+        return new BookInstanceViewModel(
+                bookInstance.getId(),
+                bookInstance.getInternalCode(),
+                bookInstance.getAcquisitionDate(),
+                bookInstance.getPreservationState(),
+                bookInstance.getStatus(),
+                BookViewModel.toViewModel(bookInstance.getBook()),
+                bookInstance.getLocation()
+        );
     }
 
     private BookInstanceViewModel mapToBookInstanceViewModel(BookInstance bookInstance) {
@@ -121,7 +122,7 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
         vm.setStatus(bookInstance.getStatus());
 
         // book dentro do instance
-        vm.setBook(mapToBookViewModel(bookInstance.getBook()));
+        vm.setBook(BookViewModel.toViewModel(bookInstance.getBook()));
 
         // location dentro do instance
         vm.setLocation(bookInstance.getLocation());
@@ -129,20 +130,6 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
         return vm;
     }
 
-
-    private BookViewModel mapToBookViewModel(Book book) {
-        BookViewModel vm = new BookViewModel();
-
-        vm.setId(book.getId());
-        vm.setTitle(book.getTitle());
-        vm.setAuthor(book.getAuthor());
-        vm.setPublisher(book.getPublisher());
-        vm.setIsbn(book.getIsbn());
-        vm.setCategory(book.getCategory());
-        vm.setNotes(book.getNotes());
-
-        return vm;
-    }
 
     private LocationViewModel mapToLocationViewModel(Location location) {
         LocationViewModel vm = new LocationViewModel();

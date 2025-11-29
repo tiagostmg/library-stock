@@ -1,5 +1,8 @@
 package com.library_stock.library_stock.loan;
 
+import com.library_stock.library_stock.loan.viewModel.BorrowBookRequestViewModel;
+import com.library_stock.library_stock.loan.viewModel.BorrowBookResponseViewModel;
+import com.library_stock.library_stock.loan.viewModel.OverdueResponseViewModel;
 import com.library_stock.library_stock.loan.viewModel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +32,8 @@ public class LoanController {
         return ResponseEntity.ok(service.borrowBook(bookInstanceId, userId, readerId, notes));
     }
 
-    @PostMapping("/return")
-    public void returnBook(ReturnBookRequestViewModel request) {
-        int id = request.id();
+    @PostMapping("/return/{id}")
+    public void returnBook(@PathVariable int id) {
         service.returnBook(id);
     }
 
