@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class LocationViewModel {
-
     private int id;
 
     private String sector;
