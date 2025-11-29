@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="book_instance")
+@Table(name = "book_instance")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,8 +39,8 @@ public class BookInstance {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @ManyToOne
-    @JoinColumn(name = "location_id")
+    @OneToOne
+    @JoinColumn(name = "location_id", unique = true)
     private Location location;
 
 }

@@ -96,6 +96,43 @@ public class DatabaseSeeder {
                     "HarperCollins", "Penguin Books", "Random House", "Simon & Schuster"
             };
 
+            for (int sector = 1; sector <= 4; sector++) {
+                for (int aisle = 1; aisle <= 4; aisle++) {
+                    for (int shelf = 1; shelf <= 4; shelf++) {
+                        for (int level = 1; level <= 3; level++) {
+                            for (int position = 1; position <= 5; position++) {
+
+                                final int fSector = sector;
+                                final int fAisle = aisle;
+                                final int fShelf = shelf;
+                                final int fLevel = level;
+                                final int fPosition = position;
+
+                                final String code =
+                                        "SE" + fSector +
+                                                "-A" + fAisle +
+                                                "-SH" + fShelf +
+                                                "-L" + fLevel +
+                                                "-P" + fPosition;
+
+                                locationRepository.findByClassificationCode(code)
+                                        .orElseGet(() -> locationRepository.save(
+                                                new Location(
+                                                        0,
+                                                        "Sector " + fSector,
+                                                        "Aisle " + fAisle,
+                                                        "Shelf " + fShelf,
+                                                        "Level " + fLevel,
+                                                        "Pos " + fPosition,
+                                                        code
+                                                )
+                                        ));
+                            }
+                        }
+                    }
+                }
+            }
+
             for (int i = 0; i < 50; i++) {
                 String isbn = "978000000" + String.format("%04d", i + 1);
                 int index = i;
@@ -113,20 +150,16 @@ public class DatabaseSeeder {
                                 )
                         ));
 
-                String code = "S" + (i % 10 + 1) + "-A" + (i % 5 + 1) + "-L" + (i % 3 + 1) + "-P" + (i % 4 + 1);
+                int sector = (i % 4) + 1;
+                int aisle = (i % 4) + 1;
+                int shelf = (i % 4) + 1;
+                int level = (i % 3) + 1;
+                int position = (i % 5) + 1;
+
+                String code = "SE" + sector + "-A" + aisle + "-SH" + shelf + "-L" + level + "-P" + position;
 
                 Location loc = locationRepository.findByClassificationCode(code)
-                        .orElseGet(() -> locationRepository.save(
-                                new Location(
-                                        0,
-                                        "Sector " + (index % 10 + 1),
-                                        "Aisle " + (index % 5 + 1),
-                                        "Shelf " + (index % 3 + 1),
-                                        "Level " + (index % 4 + 1),
-                                        "Pos " + (index % 8 + 1),
-                                        code
-                                )
-                        ));
+                        .orElseThrow(() -> new RuntimeException("Location not found: " + code));
 
                 int copies = 2 + (i % 4);
 
