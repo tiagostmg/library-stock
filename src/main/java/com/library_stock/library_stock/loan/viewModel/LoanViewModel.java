@@ -1,11 +1,8 @@
 package com.library_stock.library_stock.loan.viewModel;
 
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
-import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceSearchViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
-import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
 import com.library_stock.library_stock.loan.Loan;
-import com.library_stock.library_stock.reader.viewModel.OverdueReaderViewModel;
 import lombok.Data;
 
 import java.time.LocalDate;

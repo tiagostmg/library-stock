@@ -22,6 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Configuration
 public class DatabaseSeeder {
@@ -37,212 +40,157 @@ public class DatabaseSeeder {
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
+            if (bookRepository.count() > 0) {
+                System.out.println("--- SEED IGNORADO: Dados já presentes no banco. ---");
+                return;
+            }
 
-            User user = userRepository.findByCpf("01234567890")
+            System.out.println("--- INICIANDO SEED DO BANCO DE DADOS (VERSÃO COMPLETA) ---");
+
+            User adminUser = userRepository.findByCpf("01234567890")
                     .orElseGet(() -> userRepository.save(
                             new User(
                                     0,
                                     "01234567890",
                                     passwordEncoder.encode("12345678"),
                                     "Bruno Lopes",
-                                    "bruno@example.com"
+                                    "bruno@library.com"
                             )
                     ));
 
-            if (readerRepository.count() == 0) {
-                readerRepository.save(new Reader(
-                        0,
-                        "Gabriel Medeiros",
-                        "11111111111",
-                        "gabriel@example.com",
-                        "Rua A, 123",
-                        "85999990001"
-                ));
+            List<Reader> readers = new ArrayList<>();
+            readers.add(readerRepository.save(new Reader(0, "Gabriel Medeiros", "11111111111", "gabriel@email.com", "Rua A, 123", "85999990001")));
+            readers.add(readerRepository.save(new Reader(0, "Mariana Costa", "22222222222", "mariana@email.com", "Rua B, 456", "85999990002")));
+            readers.add(readerRepository.save(new Reader(0, "Carlos Drumond", "33333333333", "carlos@email.com", "Rua C, 789", "85999990003")));
+            readers.add(readerRepository.save(new Reader(0, "Ana Beatriz", "44444444444", "ana@email.com", "Rua D, 101", "85999990004")));
+            readers.add(readerRepository.save(new Reader(0, "João Silva", "55555555555", "joao@email.com", "Rua E, 202", "85999990005")));
 
-                readerRepository.save(new Reader(
-                        0,
-                        "Mariana Costa",
-                        "22222222222",
-                        "mariana@example.com",
-                        "Rua B, 456",
-                        "85999990002"
-                ));
+            List<BookData> rawBooks = List.of(
+                    new BookData("Clean Code", "Robert C. Martin", "Prentice Hall", "9780132350884", "Technology"),
+                    new BookData("The Pragmatic Programmer", "Andrew Hunt", "Addison-Wesley", "9780201616224", "Technology"),
+                    new BookData("Domain-Driven Design", "Eric Evans", "Addison-Wesley", "9780321125217", "Technology"),
+                    new BookData("Design Patterns", "Erich Gamma", "Addison-Wesley", "9780201633610", "Technology"),
+                    new BookData("Refactoring", "Martin Fowler", "Addison-Wesley", "9780201485677", "Technology"),
+                    new BookData("Head First Java", "Kathy Sierra", "O'Reilly", "9780596009205", "Technology"),
+                    new BookData("Effective Java", "Joshua Bloch", "Addison-Wesley", "9780134685991", "Technology"),
+                    new BookData("Clean Architecture", "Robert C. Martin", "Prentice Hall", "9780134494166", "Technology"),
+                    new BookData("The Mythical Man-Month", "Fred Brooks", "Addison-Wesley", "9780201835953", "Technology"),
+                    new BookData("Code Complete", "Steve McConnell", "Microsoft Press", "9780735619678", "Technology"),
+                    new BookData("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "Scholastic", "9780590353427", "Fantasy"),
+                    new BookData("Harry Potter and the Chamber of Secrets", "J.K. Rowling", "Scholastic", "9780439064873", "Fantasy"),
+                    new BookData("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling", "Scholastic", "9780439136365", "Fantasy"),
+                    new BookData("The Lord of the Rings", "J.R.R. Tolkien", "Houghton Mifflin", "9780544003415", "Fantasy"),
+                    new BookData("The Hobbit", "J.R.R. Tolkien", "Houghton Mifflin", "9780547928227", "Fantasy"),
+                    new BookData("Dune", "Frank Herbert", "Chilton Books", "9780441172719", "Sci-Fi"),
+                    new BookData("Neuromancer", "William Gibson", "Ace", "9780441569595", "Sci-Fi"),
+                    new BookData("Foundation", "Isaac Asimov", "Gnome Press", "9780553293357", "Sci-Fi"),
+                    new BookData("Snow Crash", "Neal Stephenson", "Bantam Books", "9780553380958", "Sci-Fi"),
+                    new BookData("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", "Pan Books", "9780345391803", "Sci-Fi"),
+                    new BookData("1984", "George Orwell", "Secker & Warburg", "9780451524935", "Fiction"),
+                    new BookData("Brave New World", "Aldous Huxley", "Chatto & Windus", "9780060850524", "Fiction"),
+                    new BookData("Fahrenheit 451", "Ray Bradbury", "Ballantine Books", "9781451673319", "Fiction"),
+                    new BookData("The Catcher in the Rye", "J.D. Salinger", "Little, Brown", "9780316769488", "Fiction"),
+                    new BookData("To Kill a Mockingbird", "Harper Lee", "Lippincott", "9780061120084", "Fiction"),
+                    new BookData("The Great Gatsby", "F. Scott Fitzgerald", "Scribner", "9780743273565", "Fiction"),
+                    new BookData("Moby Dick", "Herman Melville", "Harper & Brothers", "9781503280786", "Fiction"),
+                    new BookData("War and Peace", "Leo Tolstoy", "The Russian Messenger", "9781400079988", "Historical"),
+                    new BookData("Pride and Prejudice", "Jane Austen", "T. Egerton", "9780141439518", "Romance"),
+                    new BookData("O Alquimista", "Paulo Coelho", "HarperTorch", "9780062315007", "Fiction")
+            );
+
+            List<Book> savedBooks = new ArrayList<>();
+            for (BookData b : rawBooks) {
+                Book book = bookRepository.save(
+                        new Book(0, b.title, b.author, b.publisher, b.isbn, b.category, "Description for " + b.title)
+                );
+                savedBooks.add(book);
             }
 
-            Reader reader = readerRepository.findAll().get(0);
+            List<BookInstance> allInstances = new ArrayList<>();
+            int globalLocCounter = 1;
+            Random random = new Random();
 
-            String[] titles = {
-                    "The Silent River", "Echoes of Eternity", "Broken Skies", "The Last Kingdom",
-                    "Dreams of Tomorrow", "Crimson Shadows", "Emerald Dawn", "Lost Horizons",
-                    "Burning Fate", "The Forgotten Path", "Winds of Winter", "Voices in the Dark",
-                    "Shattered Realms", "Beyond the Stars", "The Iron Throne", "A Whisper of Hope",
-                    "Fading Memories", "The Crystal Empire", "Ashes of War", "Hidden Truths",
-                    "Rise of Legends", "Stormborn", "Threads of Destiny", "The Final Voyage",
-                    "Moonlit Promise", "The Blood Oath", "Frostbound", "Chasing Infinity",
-                    "Shadowfall", "The Lost Archive", "Requiem of Souls", "Golden Horizon",
-                    "The Witch’s Secret", "Blades of Honor", "Fragments of Light", "The Eternal Maze",
-                    "Frozen Echoes", "The Black Sun", "Sands of Time", "The Lone Wolf",
-                    "Children of Fire", "The Hidden Fortress", "The Fallen Star", "Rising Sun",
-                    "Tides of Magic", "The Last Oracle", "Broken Destiny", "A World Apart",
-                    "The Iron Moon", "Secrets of the Deep"
-            };
+            for (int i = 0; i < savedBooks.size(); i++) {
+                Book book = savedBooks.get(i);
 
-            String[] authors = {
-                    "John Smith", "Anna Gray", "Lucas Turner", "Amelia Clark",
-                    "Robert Hill", "Sophie Adams", "Daniel Carter", "Emily Stone"
-            };
-
-            String[] publishers = {
-                    "HarperCollins", "Penguin Books", "Random House", "Simon & Schuster"
-            };
-
-            for (int sector = 1; sector <= 4; sector++) {
-                for (int aisle = 1; aisle <= 4; aisle++) {
-                    for (int shelf = 1; shelf <= 4; shelf++) {
-                        for (int level = 1; level <= 3; level++) {
-                            for (int position = 1; position <= 5; position++) {
-
-                                final int fSector = sector;
-                                final int fAisle = aisle;
-                                final int fShelf = shelf;
-                                final int fLevel = level;
-                                final int fPosition = position;
-
-                                final String code =
-                                        "SE" + fSector +
-                                                "-A" + fAisle +
-                                                "-SH" + fShelf +
-                                                "-L" + fLevel +
-                                                "-P" + fPosition;
-
-                                locationRepository.findByClassificationCode(code)
-                                        .orElseGet(() -> locationRepository.save(
-                                                new Location(
-                                                        0,
-                                                        "Sector " + fSector,
-                                                        "Aisle " + fAisle,
-                                                        "Shelf " + fShelf,
-                                                        "Level " + fLevel,
-                                                        "Pos " + fPosition,
-                                                        code
-                                                )
-                                        ));
-                            }
-                        }
-                    }
-                }
-            }
-
-            for (int i = 0; i < 50; i++) {
-                String isbn = "978000000" + String.format("%04d", i + 1);
-                int index = i;
-
-                Book book = bookRepository.findByIsbn(isbn)
-                        .orElseGet(() -> bookRepository.save(
-                                new Book(
-                                        0,
-                                        titles[index],
-                                        authors[index % authors.length],
-                                        publishers[index % publishers.length],
-                                        isbn,
-                                        "Fiction",
-                                        "Autogenerated description for " + titles[index]
-                                )
-                        ));
-
-                int sector = (i % 4) + 1;
-                int aisle = (i % 4) + 1;
-                int shelf = (i % 4) + 1;
-                int level = (i % 3) + 1;
-                int position = (i % 5) + 1;
-
-                String code = "SE" + sector + "-A" + aisle + "-SH" + shelf + "-L" + level + "-P" + position;
-
-                Location loc = locationRepository.findByClassificationCode(code)
-                        .orElseThrow(() -> new RuntimeException("Location not found: " + code));
-
-                int copies = 2 + (i % 4);
+                int copies = 2 + random.nextInt(3);
 
                 for (int c = 1; c <= copies; c++) {
+                    String internalCode = "LIB-" + book.getId() + "-" + c;
 
-                    String internalCode = "INT-" + String.format("%04d", i + 1) + "-" + c;
+                    int sec = ((globalLocCounter - 1) / 25) + 1;
+                    int ais = ((globalLocCounter - 1) % 10) + 1;
+                    int she = ((globalLocCounter - 1) % 5) + 1;
 
-                    if (bookInstanceRepository.findByInternalCode(internalCode).isEmpty()) {
+                    String locCode = String.format("LOC-%04d", globalLocCounter);
 
-                        bookInstanceRepository.save(
-                                new BookInstance(
-                                        0,
-                                        internalCode,
-                                        LocalDateTime.now().minusDays(c),
-                                        PreservationState.values()[c % PreservationState.values().length],
-                                        BookStatus.AVAILABLE,
-                                        book,
-                                        loc
-                                )
-                        );
+                    Location location = locationRepository.save(new Location(
+                            0,
+                            "Sector " + sec,
+                            "Aisle " + ais,
+                            "Shelf " + she,
+                            "Level " + c,
+                            "Pos " + globalLocCounter,
+                            locCode
+                    ));
+                    globalLocCounter++;
+
+                    BookInstance newInstance = bookInstanceRepository.save(new BookInstance(
+                            0,
+                            internalCode,
+                            LocalDateTime.now().minusMonths(random.nextInt(12) + 1),
+                            PreservationState.values()[random.nextInt(PreservationState.values().length)],
+                            BookStatus.AVAILABLE,
+                            book,
+                            location
+                    ));
+                    allInstances.add(newInstance);
+                }
+            }
+
+            if (!allInstances.isEmpty() && !readers.isEmpty()) {
+
+                for (BookInstance instance : allInstances) {
+                    int chance = random.nextInt(100);
+                    Reader randomReader = readers.get(random.nextInt(readers.size()));
+
+                    if (chance < 15) {
+                        createLoan(loanRepository, bookInstanceRepository, adminUser, randomReader, instance,
+                                LocalDate.now().minusDays(random.nextInt(20) + 20),
+                                LocalDate.now().minusDays(random.nextInt(10) + 1),
+                                null,
+                                LoanStatus.OVERDUE,
+                                "Atrasado. Contatar leitor.");
+
+                    } else if (chance < 40) {
+                        createLoan(loanRepository, bookInstanceRepository, adminUser, randomReader, instance,
+                                LocalDate.now().minusDays(random.nextInt(10) + 1),
+                                LocalDate.now().plusDays(random.nextInt(10) + 5),
+                                null,
+                                LoanStatus.IN_PROGRESS,
+                                "Empréstimo regular.");
                     }
                 }
             }
 
-            if (loanRepository.count() == 0) {
-
-                BookInstance bi1 = bookInstanceRepository.findByInternalCode("INT-0001-1")
-                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
-                BookInstance bi2 = bookInstanceRepository.findByInternalCode("INT-0002-1")
-                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
-                BookInstance bi3 = bookInstanceRepository.findByInternalCode("INT-0003-1")
-                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
-                BookInstance bi4 = bookInstanceRepository.findByInternalCode("INT-0004-1")
-                        .orElseThrow(() -> new IllegalStateException("Missing instance"));
-
-                loanRepository.save(new Loan(
-                        0,
-                        LocalDate.now().minusDays(12),
-                        LocalDate.now().minusDays(5),
-                        null,
-                        LoanStatus.OVERDUE,
-                        "Overdue test 1",
-                        user,
-                        reader,
-                        bi1
-                ));
-
-                loanRepository.save(new Loan(
-                        0,
-                        LocalDate.now().minusDays(20),
-                        LocalDate.now().minusDays(10),
-                        null,
-                        LoanStatus.OVERDUE,
-                        "Overdue test 2",
-                        user,
-                        reader,
-                        bi2
-                ));
-
-                loanRepository.save(new Loan(
-                        0,
-                        LocalDate.now().minusDays(1),
-                        LocalDate.now().plusDays(6),
-                        null,
-                        LoanStatus.IN_PROGRESS,
-                        "In progress test 1",
-                        user,
-                        reader,
-                        bi3
-                ));
-
-                loanRepository.save(new Loan(
-                        0,
-                        LocalDate.now().minusDays(2),
-                        LocalDate.now().plusDays(3),
-                        null,
-                        LoanStatus.IN_PROGRESS,
-                        "In progress test 2",
-                        user,
-                        reader,
-                        bi4
-                ));
-            }
+            System.out.println("--- SEED COMPLETO: " + savedBooks.size() + " livros, " + allInstances.size() + " instâncias criadas. ---");
         };
     }
+
+    private void createLoan(LoanRepository loanRepo, BookInstanceRepository biRepo,
+                            User user, Reader reader, BookInstance instance,
+                            LocalDate loanDate, LocalDate expectedDate, LocalDateTime actualReturnDate,
+                            LoanStatus status, String notes) {
+
+        loanRepo.save(new Loan(
+                0, loanDate, expectedDate, actualReturnDate, status, notes, user, reader, instance
+        ));
+
+        if (status == LoanStatus.IN_PROGRESS || status == LoanStatus.OVERDUE) {
+            instance.setStatus(BookStatus.CHECKED_OUT);
+            biRepo.save(instance);
+        }
+    }
+
+    record BookData(String title, String author, String publisher, String isbn, String category) {}
 }

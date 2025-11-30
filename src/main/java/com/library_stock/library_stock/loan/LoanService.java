@@ -104,4 +104,12 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
                 .map(e -> new LoanViewModel().toViewModel(e))
                 .toList();
     }
+
+    public List<LoanViewModel> getByBookInstanceId(int bookInstanceId) {
+        var loans = repository.findAllByBookInstanceId(bookInstanceId);
+
+        return loans.stream()
+                .map(e -> new LoanViewModel().toViewModel(e))
+                .toList();
+    }
 }
