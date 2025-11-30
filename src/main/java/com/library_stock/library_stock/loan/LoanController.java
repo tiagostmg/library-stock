@@ -37,7 +37,7 @@ public class LoanController {
         service.returnBook(id);
     }
 
-    @GetMapping("reader/{readerId}")
+    @GetMapping("/reader/{readerId}")
     public ResponseEntity<List<LoanViewModel>> getByReaderId(@PathVariable int readerId)
     {
         var result = service.getByReaderId(readerId);
