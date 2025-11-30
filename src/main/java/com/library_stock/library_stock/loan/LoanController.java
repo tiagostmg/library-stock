@@ -46,7 +46,7 @@ public class LoanController {
 
 
     @GetMapping("bookInstance/{bookInstanceId}")
-    public ResponseEntity<List<LoanViewModel>> getByBookInstanceId(@PathVariable int bookInstanceId)
+    public ResponseEntity<List<HistoryBookInstanceResponseViewModel>> getByBookInstanceId(@PathVariable int bookInstanceId)
     {
         var result = service.getByBookInstanceId(bookInstanceId);
         return ResponseEntity.ok(result);
