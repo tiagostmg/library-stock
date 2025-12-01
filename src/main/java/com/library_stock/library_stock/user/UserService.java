@@ -1,5 +1,7 @@
 package com.library_stock.library_stock.user;
 
+import com.library_stock.library_stock.base.BaseService;
+import com.library_stock.library_stock.user.viewModel.UserViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -7,34 +9,44 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService extends BaseService<User, Integer, UserRepository> {
 
     @Autowired
     private UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        super(repository);
+    }
+
+    @Autowired
+    private com.library_stock.library_stock.user.mapper.UserMapper userMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     // CREATE
-    public User create(User user) {
+    public UserViewModel createViewModel(User user) {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        return repository.save(user);
+        return userMapper.toViewModel(repository.save(user));
     }
 
     // READ - todos
-    public List<User> findAll() {
-        return repository.findAll();
+    public List<UserViewModel> findAllViewModels() {
+        return repository.findAll().stream()
+                .map(userMapper::toViewModel)
+                .toList();
     }
 
     // READ - por ID
-    public User findById(int id) {
+    public UserViewModel findByIdViewModel(int id) {
         return repository.findById(id)
+                .map(userMapper::toViewModel)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     // UPDATE
-    public User update(int id, User userDetails) {
+    public UserViewModel updateViewModel(int id, User userDetails) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -44,7 +56,7 @@ public class UserService {
         user.setFullName(userDetails.getFullName());
         user.setEmail(userDetails.getEmail());
 
-        return repository.save(user);
+        return userMapper.toViewModel(repository.save(user));
     }
 
     // DELETE
