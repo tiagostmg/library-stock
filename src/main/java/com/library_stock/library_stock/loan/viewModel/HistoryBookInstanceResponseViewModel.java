@@ -7,6 +7,7 @@ import com.library_stock.library_stock.reader.viewModel.ReaderViewModel;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class HistoryBookInstanceResponseViewModel {
@@ -17,6 +18,8 @@ public class HistoryBookInstanceResponseViewModel {
 
     private LocalDate expectedReturnDate;
 
+    private LocalDateTime actualReturnDate;
+
     private BookInstanceViewModel BookInstanceViewModel;
 
     private ReaderViewModel ReaderViewModel;
@@ -26,6 +29,7 @@ public class HistoryBookInstanceResponseViewModel {
 
         vm.setLoanId(loan.getId());
         vm.setExpectedReturnDate(loan.getExpectedReturnDate());
+        vm.setActualReturnDate(loan.getActualReturnDate());
         vm.setLoanDate(loan.getLoanDate());
 
         BookInstanceViewModel bookInstanceVM = new BookInstanceViewModel();

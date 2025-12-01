@@ -6,6 +6,7 @@ import com.library_stock.library_stock.loan.Loan;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class LoanViewModel {
@@ -15,6 +16,8 @@ public class LoanViewModel {
 
     private LocalDate expectedReturnDate;
 
+    private LocalDateTime actualReturnDate;
+
     private BookInstanceViewModel BookInstanceViewModel;
 
     public LoanViewModel toViewModel(Loan loan) {
@@ -23,6 +26,7 @@ public class LoanViewModel {
         vm.setLoanId(loan.getId());
         vm.setExpectedReturnDate(loan.getExpectedReturnDate());
         vm.setLoanDate(loan.getLoanDate());
+        vm.setActualReturnDate(loan.getActualReturnDate());
 
         BookInstanceViewModel bookInstanceVM = new BookInstanceViewModel();
 
