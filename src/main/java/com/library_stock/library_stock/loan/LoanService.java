@@ -2,6 +2,7 @@ package com.library_stock.library_stock.loan;
 
 import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.bookInstance.BookInstance;
+import com.library_stock.library_stock.loan.mapper.LoanMapper;
 import com.library_stock.library_stock.loan.types.LoanStatus;
 import com.library_stock.library_stock.bookInstance.BookInstanceRepository;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
@@ -30,7 +31,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
     @Autowired
     ReaderRepository readerRepository;
     @Autowired
-    private com.library_stock.library_stock.loan.mapper.LoanMapper loanMapper;
+    private LoanMapper loanMapper;
 
     public LoanService(LoanRepository repository) {
         super(repository);

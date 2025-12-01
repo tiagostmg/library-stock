@@ -3,6 +3,7 @@ package com.library_stock.library_stock.bookInstance;
 import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.book.Book;
 import com.library_stock.library_stock.book.BookRepository;
+import com.library_stock.library_stock.bookInstance.mapper.BookInstanceMapper;
 import com.library_stock.library_stock.location.LocationRepository;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.types.PreservationState;
@@ -19,11 +20,11 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
 
         private final BookRepository bookRepository;
         private final LocationRepository locationRepository;
-        private final com.library_stock.library_stock.bookInstance.mapper.BookInstanceMapper bookInstanceMapper;
+        private final BookInstanceMapper bookInstanceMapper;
 
         public BookInstanceService(BookInstanceRepository repository, BookRepository bookRepository,
                         LocationRepository locationRepository,
-                        com.library_stock.library_stock.bookInstance.mapper.BookInstanceMapper bookInstanceMapper) {
+                        BookInstanceMapper bookInstanceMapper) {
                 super(repository);
                 this.bookRepository = bookRepository;
                 this.locationRepository = locationRepository;

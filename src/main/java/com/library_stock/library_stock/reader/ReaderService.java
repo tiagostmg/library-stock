@@ -33,16 +33,17 @@ public class ReaderService extends BaseService<Reader, Integer, ReaderRepository
         Page<Reader> readers;
 
         if (filter == null || filter.isBlank()) {
-            readers = repository.findAll(pageable);
-        } else {
-            filter = filter.toLowerCase().trim();
-            readers = switch (type.toLowerCase()) {
-                case "cpf" -> repository.findByCpfContainingIgnoreCase(filter, pageable);
-                case "name" -> repository.findByNameContainingIgnoreCase(filter, pageable);
-                case "email" -> repository.findByEmailContainingIgnoreCase(filter, pageable);
-                default -> throw new IllegalArgumentException("Tipo de filtro inválido: " + type);
-            };
+            return repository.findAll(pageable).map(readerMapper::toViewModel);
         }
+
+        filter = filter.toLowerCase().trim();
+        readers = switch (type.toLowerCase()) {
+            case "cpf" -> repository.findByCpfContainingIgnoreCase(filter, pageable);
+            case "name" -> repository.findByNameContainingIgnoreCase(filter, pageable);
+            case "email" -> repository.findByEmailContainingIgnoreCase(filter, pageable);
+            default -> throw new IllegalArgumentException("Tipo de filtro inválido: " + type);
+        };
+
 
         return readers.map(readerMapper::toViewModel);
     }

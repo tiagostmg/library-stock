@@ -23,7 +23,7 @@ public class ReaderController {
     }
 
     @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<ReaderViewModel> findById(@PathVariable String cpf) {
+    public ResponseEntity<ReaderViewModel> findByCpf(@PathVariable String cpf) {
         return ResponseEntity.ok(service.findByCpf(cpf));
     }
 

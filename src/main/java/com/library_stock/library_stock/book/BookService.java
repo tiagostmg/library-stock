@@ -1,6 +1,7 @@
 package com.library_stock.library_stock.book;
 
 import com.library_stock.library_stock.base.BaseService;
+import com.library_stock.library_stock.book.mapper.BookMapper;
 import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
@@ -18,7 +19,7 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
     private BookRepository repository;
 
     @Autowired
-    private com.library_stock.library_stock.book.mapper.BookMapper bookMapper;
+    private BookMapper bookMapper;
 
     protected BookService(BookRepository repository) {
         super(repository);
