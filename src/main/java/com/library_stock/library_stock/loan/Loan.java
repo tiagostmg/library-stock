@@ -1,5 +1,6 @@
 package com.library_stock.library_stock.loan;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library_stock.library_stock.bookInstance.BookInstance;
 import com.library_stock.library_stock.user.User;
 import com.library_stock.library_stock.loan.types.LoanStatus;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "loan")
+@Table(name="loan")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

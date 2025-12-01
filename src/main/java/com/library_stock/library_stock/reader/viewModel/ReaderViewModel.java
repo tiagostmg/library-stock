@@ -1,5 +1,8 @@
 package com.library_stock.library_stock.reader.viewModel;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Data;
 
 @Data
