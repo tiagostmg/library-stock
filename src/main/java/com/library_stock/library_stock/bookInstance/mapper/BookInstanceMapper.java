@@ -4,7 +4,6 @@ import com.library_stock.library_stock.book.mapper.BookMapper;
 import com.library_stock.library_stock.bookInstance.BookInstance;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +11,6 @@ public class BookInstanceMapper {
 
   private final BookMapper bookMapper;
 
-  @Autowired
   public BookInstanceMapper(BookMapper bookMapper) {
     this.bookMapper = bookMapper;
   }

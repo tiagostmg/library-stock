@@ -6,7 +6,6 @@ import com.library_stock.library_stock.loan.viewModel.HistoryBookInstanceRespons
 import com.library_stock.library_stock.loan.viewModel.LoanViewModel;
 import com.library_stock.library_stock.loan.viewModel.OverdueResponseViewModel;
 import com.library_stock.library_stock.reader.mapper.ReaderMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +14,6 @@ public class LoanMapper {
   private final BookInstanceMapper bookInstanceMapper;
   private final ReaderMapper readerMapper;
 
-  @Autowired
   public LoanMapper(BookInstanceMapper bookInstanceMapper, ReaderMapper readerMapper) {
     this.bookInstanceMapper = bookInstanceMapper;
     this.readerMapper = readerMapper;
