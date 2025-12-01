@@ -44,4 +44,11 @@ public class LoanController {
         return ResponseEntity.ok(result);
     }
 
+
+    @GetMapping("bookInstance/{bookInstanceId}")
+    public ResponseEntity<List<HistoryBookInstanceResponseViewModel>> getByBookInstanceId(@PathVariable int bookInstanceId)
+    {
+        var result = service.getByBookInstanceId(bookInstanceId);
+        return ResponseEntity.ok(result);
+    }
 }

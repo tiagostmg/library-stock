@@ -14,4 +14,6 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
     Optional<Loan> findByBookInstanceIdAndActualReturnDateIsNull(int bookInstanceId);
 
     List<Loan> findAllByReaderId(int readerId);
+
+    List<Loan> findAllByBookInstanceId(int bookInstanceId);
 }
