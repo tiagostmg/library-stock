@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookInstance {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,15 +33,15 @@ public class BookInstance {
     private PreservationState preservationState;
 
     @Enumerated(EnumType.STRING)
-    @Column()
+    @Column(nullable = false)
     private BookStatus status;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @OneToOne
-    @JoinColumn(name = "location_id", unique = true)
+    // Muitas instâncias podem ficar no mesmo corredor/estante (mesma categoria)
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
     private Location location;
-
 }

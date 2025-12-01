@@ -1,5 +1,7 @@
 package com.library_stock.library_stock.book.viewModel;
 
+import com.library_stock.library_stock.book.types.Category;
+
 public class AddBookViewModel {
 
     public String title;
@@ -10,7 +12,7 @@ public class AddBookViewModel {
 
     public String isbn;
 
-    public String category;
+    public Category category;
 
     public String notes;
 

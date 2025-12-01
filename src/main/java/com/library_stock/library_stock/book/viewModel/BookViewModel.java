@@ -1,6 +1,8 @@
 package com.library_stock.library_stock.book.viewModel;
 
 import com.library_stock.library_stock.book.Book;
+import com.library_stock.library_stock.book.types.Category;
+import com.library_stock.library_stock.location.viewModel.LocationViewModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,11 +22,13 @@ public class BookViewModel {
 
     public String isbn;
 
-    public String category;
+    public Category category;
 
     public String notes;
 
-    public static BookViewModel toViewModel(Book book) {
+    private LocationViewModel recommendedLocation;
+
+    public static BookViewModel toViewModel(Book book, LocationViewModel location) {
         return new BookViewModel(
                 book.getId(),
                 book.getTitle(),
@@ -32,7 +36,8 @@ public class BookViewModel {
                 book.getPublisher(),
                 book.getIsbn(),
                 book.getCategory(),
-                book.getNotes()
+                book.getNotes(),
+                location
         );
     }
 }
