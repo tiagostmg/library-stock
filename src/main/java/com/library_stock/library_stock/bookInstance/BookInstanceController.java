@@ -17,13 +17,13 @@ public class BookInstanceController {
     private BookInstanceService bookInstanceService;
 
     @PostMapping
-    public ResponseEntity<BookInstanceViewModel> create(@RequestBody AddBookInstanceViewModel bookInstance) {
-        return ResponseEntity.ok(bookInstanceService.createBookInstance(bookInstance));
+    public ResponseEntity<BookInstanceViewModel> create(@RequestBody AddBookInstanceViewModel vm) {
+        return ResponseEntity.ok(bookInstanceService.createBookInstance(vm));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookInstanceViewModel> update(@PathVariable int id, @RequestBody UpdateBookInstanceViewModel bookInstance) {
-        return ResponseEntity.ok(bookInstanceService.updateBookInstance(id, bookInstance));
+    public ResponseEntity<BookInstanceViewModel> update(@PathVariable int id, @RequestBody UpdateBookInstanceViewModel vm) {
+        return ResponseEntity.ok(bookInstanceService.updateBookInstance(id, vm));
     }
 
     @DeleteMapping("/{id}")
@@ -56,5 +56,4 @@ public class BookInstanceController {
     public List<BookInstanceViewModel> findBadInstances() {
         return bookInstanceService.findByPreservationStateBad();
     }
-
 }

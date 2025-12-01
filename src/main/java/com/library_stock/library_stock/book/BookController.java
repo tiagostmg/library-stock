@@ -1,5 +1,6 @@
 package com.library_stock.library_stock.book;
 
+import com.library_stock.library_stock.book.types.Category;
 import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
@@ -38,6 +39,11 @@ public class BookController {
         return service.searchBooks(searchModel);
     }
 
+    @GetMapping("/search/by-category")
+    public ResponseEntity<List<BookViewModel>> findByCategory(@RequestParam Category category) {
+        return ResponseEntity.ok(service.findByCategory(category));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Book>> findById(@PathVariable int id) {
         return ResponseEntity.ok(service.findById(id));
@@ -53,4 +59,5 @@ public class BookController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }

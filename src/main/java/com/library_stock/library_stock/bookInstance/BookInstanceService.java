@@ -21,6 +21,7 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
 
     private final BookRepository bookRepository;
     private final LocationRepository locationRepository;
+
     public BookInstanceService(BookInstanceRepository repository, BookRepository bookRepository, LocationRepository locationRepository) {
         super(repository);
         this.bookRepository = bookRepository;
@@ -79,7 +80,7 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
     public BookInstanceViewModel updateBookInstance(int id, UpdateBookInstanceViewModel bookInstanceVM) {
 
         BookInstance bookInstance = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("BookInstance not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("BookInstance não encontrado com id: " + id));
 
         bookInstance.setPreservationState(bookInstanceVM.preservationState);
         bookInstance.setStatus(bookInstanceVM.status);
@@ -109,7 +110,7 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
                 bookInstance.getPreservationState(),
                 bookInstance.getStatus(),
                 BookViewModel.toViewModel(bookInstance.getBook()),
-                bookInstance.getLocation()
+                LocationViewModel.fromLocation(bookInstance.getLocation())
         );
     }
 
@@ -125,22 +126,7 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
         vm.setBook(BookViewModel.toViewModel(bookInstance.getBook()));
 
         // location dentro do instance
-        vm.setLocation(bookInstance.getLocation());
-
-        return vm;
-    }
-
-
-    private LocationViewModel mapToLocationViewModel(Location location) {
-        LocationViewModel vm = new LocationViewModel();
-
-        vm.setId(location.getId());
-        vm.setSector(location.getSector());
-        vm.setAisle(location.getAisle());
-        vm.setShelf(location.getShelf());
-        vm.setShelfLevel(location.getShelfLevel());
-        vm.setPosition(location.getPosition());
-        vm.setClassificationCode(location.getClassificationCode());
+        vm.setLocation(LocationViewModel.fromLocation(bookInstance.getLocation()));
 
         return vm;
     }

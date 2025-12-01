@@ -4,6 +4,7 @@ import com.library_stock.library_stock.book.viewModel.BookViewModel;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
 import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import com.library_stock.library_stock.location.Location;
+import com.library_stock.library_stock.location.viewModel.LocationViewModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,5 @@ public class BookInstanceViewModel {
 
     public BookViewModel book;
 
-    public Location location;
+    public LocationViewModel location;
 }
