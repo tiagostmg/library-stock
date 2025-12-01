@@ -2,7 +2,6 @@ package com.library_stock.library_stock.loan;
 
 import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.bookInstance.BookInstance;
-import com.library_stock.library_stock.loan.mapper.LoanMapper;
 import com.library_stock.library_stock.loan.types.LoanStatus;
 import com.library_stock.library_stock.bookInstance.BookInstanceRepository;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
@@ -22,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
+public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
 
     @Autowired
     BookInstanceRepository bookInstanceRepository;
@@ -30,8 +29,6 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
     UserRepository userRepository;
     @Autowired
     ReaderRepository readerRepository;
-    @Autowired
-    private LoanMapper loanMapper;
 
     public LoanService(LoanRepository repository) {
         super(repository);
@@ -90,13 +87,14 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
         repository.save(loan);
     }
 
+
     public List<OverdueResponseViewModel> getOverdueLoans() {
 
         List<Loan> overdueLoans = repository
                 .findOverdueLoans(LocalDate.now());
 
         return overdueLoans.stream()
-                .map(loanMapper::toOverdueViewModel)
+                .map(e -> new OverdueResponseViewModel().toViewModel(e))
                 .toList();
     }
 
@@ -104,7 +102,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
         var loans = repository.findAllByReaderId(readerId);
 
         return loans.stream()
-                .map(loanMapper::toViewModel)
+                .map(e -> new LoanViewModel().toViewModel(e))
                 .toList();
     }
 
@@ -112,7 +110,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
         var loans = repository.findAllByBookInstanceId(bookInstanceId);
 
         return loans.stream()
-                .map(loanMapper::toHistoryViewModel)
+                .map(e -> new HistoryBookInstanceResponseViewModel().toViewModel(e))
                 .toList();
     }
 }

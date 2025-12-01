@@ -1,5 +1,6 @@
 package com.library_stock.library_stock.book.viewModel;
 
+import com.library_stock.library_stock.book.Book;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,15 @@ public class BookViewModel {
 
     public String notes;
 
+    public static BookViewModel toViewModel(Book book) {
+        return new BookViewModel(
+                book.getId(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getPublisher(),
+                book.getIsbn(),
+                book.getCategory(),
+                book.getNotes()
+        );
+    }
 }
