@@ -26,10 +26,10 @@ public class LoanController {
     @PostMapping("/borrow")
     public ResponseEntity<BorrowBookResponseViewModel> borrowBook(BorrowBookRequestViewModel request) {
         int bookInstanceId = request.bookInstanceId();
-        int userId = request.userId();
+        String userCpf = request.userCpf();
         int readerId = request.readerId();
         String notes =  request.notes();
-        return ResponseEntity.ok(service.borrowBook(bookInstanceId, userId, readerId, notes));
+        return ResponseEntity.ok(service.borrowBook(bookInstanceId, userCpf, readerId, notes));
     }
 
     @PostMapping("/return/{id}")

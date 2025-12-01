@@ -34,7 +34,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
         super(repository);
     }
 
-    public BorrowBookResponseViewModel borrowBook(int bookInstanceId, int userId, int readerId, String notes) {
+    public BorrowBookResponseViewModel borrowBook(int bookInstanceId, String userCpf, int readerId, String notes) {
 
         BookInstance instance = bookInstanceRepository.findById(bookInstanceId)
                 .orElseThrow(() -> new IllegalArgumentException("Book instance not found"));
@@ -46,7 +46,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
             throw new IllegalStateException("Book instance is already borrowed.");
         }
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByCpf(userCpf)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Reader reader = readerRepository.findById(readerId)

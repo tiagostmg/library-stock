@@ -5,6 +5,7 @@ import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import com.library_stock.library_stock.reader.viewModel.ReaderSearchRequestViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +25,13 @@ public class ReaderController {
         return service.findById(id);
     }
 
+    @GetMapping("/cpf/{cpf}")
+    public Optional<Reader> findById(@PathVariable String cpf) {
+        return service.findByCpf(cpf);
+    }
+
     @GetMapping("/search")
     public Page<Reader> searchReaders(ReaderSearchRequestViewModel searchModel) {
-        // O Spring Framework automaticamente popula 'searchModel'
-        // usando os query parameters (ex: ?filter=e&page=0&size=1)
-
-        // Chamamos o serviço que já está configurado para usar o PageRequest.of()
         return service.searchReaders(searchModel);
     }
 }
