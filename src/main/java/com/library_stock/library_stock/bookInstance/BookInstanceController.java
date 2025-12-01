@@ -22,7 +22,8 @@ public class BookInstanceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookInstanceViewModel> update(@PathVariable int id, @RequestBody UpdateBookInstanceViewModel bookInstance) {
+    public ResponseEntity<BookInstanceViewModel> update(@PathVariable int id,
+            @RequestBody UpdateBookInstanceViewModel bookInstance) {
         return ResponseEntity.ok(bookInstanceService.updateBookInstance(id, bookInstance));
     }
 
@@ -38,8 +39,8 @@ public class BookInstanceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookInstance>> findAll() {
-        return ResponseEntity.ok(bookInstanceService.findAll());
+    public ResponseEntity<List<BookInstanceViewModel>> findAll() {
+        return ResponseEntity.ok(bookInstanceService.findAllViewModels());
     }
 
     @GetMapping("/{id}")

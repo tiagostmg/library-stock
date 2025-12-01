@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
+public class LoanService extends BaseService<Loan, Integer, LoanRepository> {
 
     @Autowired
     BookInstanceRepository bookInstanceRepository;
@@ -29,6 +29,8 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
     UserRepository userRepository;
     @Autowired
     ReaderRepository readerRepository;
+    @Autowired
+    private com.library_stock.library_stock.loan.mapper.LoanMapper loanMapper;
 
     public LoanService(LoanRepository repository) {
         super(repository);
@@ -87,14 +89,13 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
         repository.save(loan);
     }
 
-
     public List<OverdueResponseViewModel> getOverdueLoans() {
 
         List<Loan> overdueLoans = repository
                 .findOverdueLoans(LocalDate.now());
 
         return overdueLoans.stream()
-                .map(e -> new OverdueResponseViewModel().toViewModel(e))
+                .map(loanMapper::toOverdueViewModel)
                 .toList();
     }
 
@@ -102,7 +103,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
         var loans = repository.findAllByReaderId(readerId);
 
         return loans.stream()
-                .map(e -> new LoanViewModel().toViewModel(e))
+                .map(loanMapper::toViewModel)
                 .toList();
     }
 
@@ -110,7 +111,7 @@ public class LoanService extends BaseService<Loan, Integer, LoanRepository>{
         var loans = repository.findAllByBookInstanceId(bookInstanceId);
 
         return loans.stream()
-                .map(e -> new HistoryBookInstanceResponseViewModel().toViewModel(e))
+                .map(loanMapper::toHistoryViewModel)
                 .toList();
     }
 }

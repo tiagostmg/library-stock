@@ -17,6 +17,9 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
     @Autowired
     private BookRepository repository;
 
+    @Autowired
+    private com.library_stock.library_stock.book.mapper.BookMapper bookMapper;
+
     protected BookService(BookRepository repository) {
         super(repository);
     }
@@ -63,21 +66,7 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
 
         Book saved = repository.save(book);
 
-        return mapToBookViewModel(saved);
-    }
-
-    private BookViewModel mapToBookViewModel(Book book) {
-        BookViewModel vm = new BookViewModel();
-
-        vm.setId(book.getId());
-        vm.setTitle(book.getTitle());
-        vm.setAuthor(book.getAuthor());
-        vm.setPublisher(book.getPublisher());
-        vm.setIsbn(book.getIsbn());
-        vm.setCategory(book.getCategory());
-        vm.setNotes(book.getNotes());
-
-        return vm;
+        return bookMapper.toViewModel(saved);
     }
 
     public BookViewModel updateBook(int id, UpdateBookViewModel vm) {
@@ -89,7 +78,7 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
 
         Book updated = repository.save(book);
 
-        return mapToBookViewModel(updated);
+        return bookMapper.toViewModel(updated);
     }
 
 }
