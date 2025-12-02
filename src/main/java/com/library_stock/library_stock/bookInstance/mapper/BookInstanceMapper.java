@@ -26,6 +26,7 @@ public class BookInstanceMapper {
     vm.setAcquisitionDate(bookInstance.getAcquisitionDate());
     vm.setPreservationState(bookInstance.getPreservationState());
     vm.setStatus(bookInstance.getStatus());
+    vm.setNotes(bookInstance.getNotes());
     vm.setBook(bookMapper.toViewModel(bookInstance.getBook()));
     vm.setLocation(bookInstance.getLocation());
     return vm;
@@ -33,8 +34,8 @@ public class BookInstanceMapper {
 
   public BookInstance toModel(AddBookInstanceViewModel bookInstanceViewModel) {
     BookInstance bookInstance = new BookInstance();
-    bookInstance.setStatus(bookInstanceViewModel.status);
     bookInstance.setPreservationState(bookInstanceViewModel.preservationState);
+    bookInstance.setNotes(bookInstanceViewModel.notes);
 
     return bookInstance;
   }

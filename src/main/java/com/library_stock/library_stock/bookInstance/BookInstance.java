@@ -35,6 +35,9 @@ public class BookInstance {
     @Column()
     private BookStatus status;
 
+    @Column(length = 200)
+    private String notes;
+
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;

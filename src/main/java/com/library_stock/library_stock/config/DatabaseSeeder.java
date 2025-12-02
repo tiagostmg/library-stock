@@ -7,7 +7,6 @@ import com.library_stock.library_stock.book.types.Category;
 import com.library_stock.library_stock.bookInstance.BookInstance;
 import com.library_stock.library_stock.bookInstance.BookInstanceRepository;
 import com.library_stock.library_stock.bookInstance.BookInstanceService;
-import com.library_stock.library_stock.bookInstance.mapper.BookInstanceMapper;
 import com.library_stock.library_stock.bookInstance.types.BookStatus;
 import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
@@ -38,7 +37,6 @@ public class DatabaseSeeder {
                         BookInstanceService bookInstanceService,
                         BookRepository bookRepository,
                         BookInstanceRepository bookInstanceRepository,
-                        BookInstanceMapper bookInstanceMapper,
                         UserRepository userRepository,
                         ReaderRepository readerRepository,
                         LoanRepository loanRepository,
@@ -182,7 +180,7 @@ public class DatabaseSeeder {
                                                                         PreservationState.values()[random
                                                                                         .nextInt(PreservationState
                                                                                                         .values().length)],
-                                                                        BookStatus.AVAILABLE));
+                                                                        book.getNotes()));
 
                                         BookInstance instanceEntity = bookInstanceRepository
                                                         .findById(newInstance.getId())

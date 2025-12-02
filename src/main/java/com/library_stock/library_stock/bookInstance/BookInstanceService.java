@@ -5,6 +5,7 @@ import com.library_stock.library_stock.book.Book;
 import com.library_stock.library_stock.book.BookRepository;
 import com.library_stock.library_stock.book.types.Category;
 import com.library_stock.library_stock.bookInstance.mapper.BookInstanceMapper;
+import com.library_stock.library_stock.bookInstance.types.BookStatus;
 import com.library_stock.library_stock.location.LocationRepository;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.types.PreservationState;
@@ -77,6 +78,7 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
 
         newInstanceData.setBook(book);
         newInstanceData.setLocation(location);
+        newInstanceData.setStatus(BookStatus.AVAILABLE);
         newInstanceData.setAcquisitionDate(LocalDateTime.now());
         newInstanceData.setInternalCode(java.util.UUID.randomUUID().toString());
 
