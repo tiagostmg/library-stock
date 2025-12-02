@@ -16,9 +16,9 @@ public class BookInstanceController {
     @Autowired
     private BookInstanceService bookInstanceService;
 
-    @PostMapping
-    public ResponseEntity<BookInstanceViewModel> create(@RequestBody AddBookInstanceViewModel bookInstance) {
-        return ResponseEntity.ok(bookInstanceService.createBookInstance(bookInstance));
+    @PostMapping("/{bookId}")
+    public ResponseEntity<BookInstanceViewModel> create(@RequestBody AddBookInstanceViewModel bookInstance, @PathVariable int bookId) {
+        return ResponseEntity.ok(bookInstanceService.createBookInstance(bookId, bookInstance));
     }
 
     @PutMapping("/{id}")

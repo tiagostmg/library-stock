@@ -1,18 +1,24 @@
 package com.library_stock.library_stock.bookInstance.mapper;
 
+import com.library_stock.library_stock.book.BookRepository;
 import com.library_stock.library_stock.book.mapper.BookMapper;
 import com.library_stock.library_stock.bookInstance.BookInstance;
+import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
+import com.library_stock.library_stock.location.LocationRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookInstanceMapper {
 
   private final BookMapper bookMapper;
+  private final BookRepository bookRepository;
 
-  public BookInstanceMapper(BookMapper bookMapper) {
+  public BookInstanceMapper(BookMapper bookMapper, BookRepository bookRepository,
+      LocationRepository locationRepository) {
     this.bookMapper = bookMapper;
+    this.bookRepository = bookRepository;
   }
 
   public BookInstanceViewModel toViewModel(BookInstance bookInstance) {
@@ -28,6 +34,14 @@ public class BookInstanceMapper {
     vm.setBook(bookMapper.toViewModel(bookInstance.getBook()));
     vm.setLocation(bookInstance.getLocation());
     return vm;
+  }
+
+  public BookInstance toModel(AddBookInstanceViewModel bookInstanceViewModel) {
+    BookInstance bookInstance = new BookInstance();
+    bookInstance.setStatus(bookInstanceViewModel.status);
+    bookInstance.setPreservationState(bookInstanceViewModel.preservationState);
+
+    return bookInstance;
   }
 
   public OverdueBookInstanceViewModel toOverdueViewModel(BookInstance bookInstance) {

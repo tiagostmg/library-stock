@@ -18,7 +18,6 @@ public class LocationMapper {
     vm.setShelf(location.getShelf());
     vm.setShelfLevel(location.getShelfLevel());
     vm.setPosition(location.getPosition());
-    vm.setClassificationCode(location.getClassificationCode());
     return vm;
   }
 }

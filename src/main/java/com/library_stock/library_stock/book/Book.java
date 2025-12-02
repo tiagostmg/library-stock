@@ -1,5 +1,6 @@
 package com.library_stock.library_stock.book;
 
+import com.library_stock.library_stock.book.types.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +28,9 @@ public class Book {
     @Column(length = 20, unique = true)
     private String isbn;
 
-    @Column(length = 50)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private Category category;
 
     @Column(length = 200)
     private String notes;

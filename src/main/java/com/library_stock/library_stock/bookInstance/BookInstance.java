@@ -21,7 +21,7 @@ public class BookInstance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 30, nullable = false, unique = true)
+    @Column(length = 36, nullable = false, unique = true)
     private String internalCode;
 
     @Column(nullable = false)

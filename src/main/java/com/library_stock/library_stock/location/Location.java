@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="location")
+@Table(name = "location")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,6 +30,4 @@ public class Location {
     @Column(length = 50, nullable = false)
     private String position;
 
-    @Column(length = 20, nullable = false, unique = true)
-    private String classificationCode;
 }
