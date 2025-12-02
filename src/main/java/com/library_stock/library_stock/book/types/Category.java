@@ -1,17 +1,17 @@
 package com.library_stock.library_stock.book.types;
 
 public enum Category {
-    FICTION,
-    NON_FICTION,
-    HISTORY,
-    SCIENCE,
-    TECHNOLOGY,
-    BIOGRAPHY,
-    FANTASY,
-    MYSTERY,
-    ROMANCE,
-    PHILOSOPHY,
-    EDUCATION,
-    ART,
-    RELIGION
+    Ficcao,
+    Nao_ficcao,
+    Historia,
+    Ciencia,
+    Tecnologia,
+    Biografia,
+    Fantasia,
+    Misterio,
+    Romance,
+    Filosofia,
+    Educacao,
+    Arte,
+    Religiao
 }

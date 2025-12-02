@@ -2,6 +2,7 @@ package com.library_stock.library_stock.book;
 
 import com.library_stock.library_stock.base.BaseService;
 import com.library_stock.library_stock.book.mapper.BookMapper;
+import com.library_stock.library_stock.book.types.Category;
 import com.library_stock.library_stock.book.viewModel.AddBookViewModel;
 import com.library_stock.library_stock.book.viewModel.BookSearchViewModel;
 import com.library_stock.library_stock.book.viewModel.BookViewModel;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookService extends BaseService<Book, Integer, BookRepository> {
@@ -50,7 +54,25 @@ public class BookService extends BaseService<Book, Integer, BookRepository> {
         return switch (type.toLowerCase()) {
             case "title" -> repository.findByTitleContainingIgnoreCase(filter, pageable);
             case "author" -> repository.findByAuthorContainingIgnoreCase(filter, pageable);
-            case "category" -> repository.findByCategoryContainingIgnoreCase(filter, pageable);
+            case "category" -> {
+                try {
+                    List<Category> matchingCategories = new ArrayList<>();
+                    for (Category c : Category.values()) {
+                        if (c.name().toLowerCase().contains(filter.toLowerCase())) {
+                            matchingCategories.add(c);
+                        }
+                    }
+
+                    if (matchingCategories.isEmpty()) {
+                        yield Page.empty();
+                    }
+
+                    yield repository.findByCategoryIn(matchingCategories, pageable);
+
+                } catch (Exception e) {
+                    yield Page.empty();
+                }
+            }
             default -> throw new IllegalArgumentException("Tipo de filtro inválido: " + type);
         };
     }

@@ -106,31 +106,31 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
 
     private void defineAisleAndSector(Category category, Location location) {
         switch (category) {
-            case FICTION:
-            case FANTASY:
-            case MYSTERY:
-            case ROMANCE:
+            case Ficcao:
+            case Fantasia:
+            case Misterio:
+            case Romance:
                 location.setSector("Literature Wing");
                 location.setAisle("Aisle-100");
                 break;
 
-            case NON_FICTION:
-            case BIOGRAPHY:
-            case HISTORY:
+            case Nao_ficcao:
+            case Biografia:
+            case Historia:
                 location.setSector("Humanities Wing");
                 location.setAisle("Aisle-200");
                 break;
 
-            case SCIENCE:
-            case TECHNOLOGY:
-            case EDUCATION:
+            case Ciencia:
+            case Tecnologia:
+            case Educacao:
                 location.setSector("Science Wing");
                 location.setAisle("Aisle-300");
                 break;
 
-            case PHILOSOPHY:
-            case RELIGION:
-            case ART:
+            case Filosofia:
+            case Religiao:
+            case Arte:
                 location.setSector("Arts Wing");
                 location.setAisle("Aisle-400");
                 break;

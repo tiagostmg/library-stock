@@ -1,24 +1,19 @@
 package com.library_stock.library_stock.bookInstance.mapper;
 
-import com.library_stock.library_stock.book.BookRepository;
 import com.library_stock.library_stock.book.mapper.BookMapper;
 import com.library_stock.library_stock.bookInstance.BookInstance;
 import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
-import com.library_stock.library_stock.location.LocationRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookInstanceMapper {
 
   private final BookMapper bookMapper;
-  private final BookRepository bookRepository;
 
-  public BookInstanceMapper(BookMapper bookMapper, BookRepository bookRepository,
-      LocationRepository locationRepository) {
+  public BookInstanceMapper(BookMapper bookMapper) {
     this.bookMapper = bookMapper;
-    this.bookRepository = bookRepository;
   }
 
   public BookInstanceViewModel toViewModel(BookInstance bookInstance) {

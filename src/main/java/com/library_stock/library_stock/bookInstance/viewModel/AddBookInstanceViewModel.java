@@ -4,8 +4,6 @@ import com.library_stock.library_stock.bookInstance.types.BookStatus;
 import com.library_stock.library_stock.bookInstance.types.PreservationState;
 import lombok.AllArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 public class AddBookInstanceViewModel {
 
