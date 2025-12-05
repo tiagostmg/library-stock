@@ -22,4 +22,5 @@ public interface BookInstanceRepository extends JpaRepository<BookInstance, Inte
             "JOIN bi.location l " +
             "WHERE bi.book.id = :bookId")
     Integer findMaxPositionByBookId(int bookId);
+
 }

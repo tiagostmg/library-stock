@@ -29,7 +29,7 @@ public class BookInstanceController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
-        bookInstanceService.delete(id);
+        bookInstanceService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

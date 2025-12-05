@@ -174,4 +174,12 @@ public class BookInstanceService extends BaseService<BookInstance, Integer, Book
                 .toList();
     }
 
+    public void deleteById(int id) {
+        BookInstance book = repository.findById(id).orElseThrow(() -> new RuntimeException("BookInstance not found with id: " + id));
+
+        book.setStatus(BookStatus.UNAVAILABLE); // apenas alterar o estado desse book instance
+
+        repository.save(book);
+    }
+
 }
