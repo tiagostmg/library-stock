@@ -39,6 +39,8 @@ Isso irá iniciar um container com PostgreSQL configurado automaticamente pela d
 
 ## Como Executar
 
+Use o IntelliJ, ou:
+
     mvn spring-boot:run
 
 API: http://localhost:8080
