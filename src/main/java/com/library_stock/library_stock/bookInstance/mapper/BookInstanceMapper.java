@@ -2,6 +2,7 @@ package com.library_stock.library_stock.bookInstance.mapper;
 
 import com.library_stock.library_stock.book.mapper.BookMapper;
 import com.library_stock.library_stock.bookInstance.BookInstance;
+import com.library_stock.library_stock.bookInstance.viewModel.AddBookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.BookInstanceViewModel;
 import com.library_stock.library_stock.bookInstance.viewModel.OverdueBookInstanceViewModel;
 import org.springframework.stereotype.Component;
@@ -25,9 +26,18 @@ public class BookInstanceMapper {
     vm.setAcquisitionDate(bookInstance.getAcquisitionDate());
     vm.setPreservationState(bookInstance.getPreservationState());
     vm.setStatus(bookInstance.getStatus());
+    vm.setNotes(bookInstance.getNotes());
     vm.setBook(bookMapper.toViewModel(bookInstance.getBook()));
     vm.setLocation(bookInstance.getLocation());
     return vm;
+  }
+
+  public BookInstance toModel(AddBookInstanceViewModel bookInstanceViewModel) {
+    BookInstance bookInstance = new BookInstance();
+    bookInstance.setPreservationState(bookInstanceViewModel.preservationState);
+    bookInstance.setNotes(bookInstanceViewModel.notes);
+
+    return bookInstance;
   }
 
   public OverdueBookInstanceViewModel toOverdueViewModel(BookInstance bookInstance) {

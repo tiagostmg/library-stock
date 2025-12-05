@@ -1,5 +1,6 @@
 package com.library_stock.library_stock.book.viewModel;
 
+import com.library_stock.library_stock.book.types.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class BookViewModel {
 
     public String isbn;
 
-    public String category;
+    public Category category;
 
     public String notes;
 

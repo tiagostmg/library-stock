@@ -25,6 +25,8 @@ public class BookInstanceViewModel {
 
     public BookStatus status;
 
+    public String notes;
+
     public BookViewModel book;
 
     public Location location;

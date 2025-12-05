@@ -21,7 +21,7 @@ public class BookInstance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 30, nullable = false, unique = true)
+    @Column(length = 36, nullable = false, unique = true)
     private String internalCode;
 
     @Column(nullable = false)
@@ -34,6 +34,9 @@ public class BookInstance {
     @Enumerated(EnumType.STRING)
     @Column()
     private BookStatus status;
+
+    @Column(length = 200)
+    private String notes;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)

@@ -16,5 +16,4 @@ public class LocationViewModel {
 
     private String position;
 
-    private String classificationCode;
 }
